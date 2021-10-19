@@ -23,7 +23,7 @@ public class ArrayStorage {
                     storage[i] = r;
                 }
             }
-        } else System.out.println("Can't find. Resume with uuid: \"" + r.getUuid() +  "\" doesn't exist");
+        } else System.out.println("Can't find. Resume with uuid: \"" + r.getUuid() + "\" doesn't exist");
     }
 
     public void save(Resume r) {
@@ -32,7 +32,7 @@ public class ArrayStorage {
                 storage[storageSize] = r;
                 storageSize++;
             } else System.out.println("The storage is full. Can't add new resume");
-        } else System.out.println("These resume with uuid: \"" + r.getUuid() +  "\" already exist");
+        } else System.out.println("These resume with uuid: \"" + r.getUuid() + "\" already exist");
     }
 
     public Resume get(String uuid) {
@@ -42,7 +42,8 @@ public class ArrayStorage {
                     return storage[i];
                 }
             }
-        } System.out.println("Can't find. Resume with uuid: \"" + uuid +  "\" doesn't exist");
+        }
+        System.out.println("Can't find. Resume with uuid: \"" + uuid + "\" doesn't exist");
         return null;
     }
 
@@ -57,7 +58,7 @@ public class ArrayStorage {
                     }
                 }
             }
-        } else System.out.println("Can't find. Resume with uuid: \"" + uuid +  "\" doesn't exist");
+        } else System.out.println("Can't find. Resume with uuid: \"" + uuid + "\" doesn't exist");
     }
 
     /**
