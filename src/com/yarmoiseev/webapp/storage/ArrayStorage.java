@@ -17,19 +17,13 @@ public class ArrayStorage {
     }
 
     public void update(Resume r) {
-//        Implementation with collections:
-//        List<Resume> resumeList = new ArrayList<>(Arrays.asList(getAll()));
-//        if (resumeList.contains(r)) {
-//            storage[resumeList.indexOf(r)] = r;
-//        } else System.out.println("Can't find. These resume doesn't exist");
-
         if (uuidExist(r.getUuid())) {
             for (int i = 0; i < storageSize; i++) {
                 if (storage[i].getUuid().equals(r.getUuid())) {
                     storage[i] = r;
                 }
             }
-        } else System.out.println("Can't find. These resume doesn't exist");
+        } else System.out.println("Can't find. Resume with uuid: \"" + r.getUuid() +  "\" doesn't exist");
     }
 
     public void save(Resume r) {
@@ -38,7 +32,7 @@ public class ArrayStorage {
                 storage[storageSize] = r;
                 storageSize++;
             } else System.out.println("The storage is full. Can't add new resume");
-        } else System.out.println("These resume already exist");
+        } else System.out.println("These resume with uuid: \"" + r.getUuid() +  "\" already exist");
     }
 
     public Resume get(String uuid) {
@@ -48,7 +42,7 @@ public class ArrayStorage {
                     return storage[i];
                 }
             }
-        } else System.out.println("Can't find. These resume doesn't exist");
+        } System.out.println("Can't find. Resume with uuid: \"" + uuid +  "\" doesn't exist");
         return null;
     }
 
@@ -63,14 +57,14 @@ public class ArrayStorage {
                     }
                 }
             }
-        } else System.out.println("Can't find. These resume doesn't exist");
+        } else System.out.println("Can't find. Resume with uuid: \"" + uuid +  "\" doesn't exist");
     }
 
     /**
      * @return array, contains only Resumes in storage (without null)
      */
     public Resume[] getAll() {
-        return Arrays.copyOfRange(storage, 0, storageSize);
+        return Arrays.copyOf(storage, storageSize);
     }
 
     public int size() {

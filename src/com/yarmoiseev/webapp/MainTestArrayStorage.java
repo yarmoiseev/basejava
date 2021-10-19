@@ -1,3 +1,5 @@
+package com.yarmoiseev.webapp;
+
 import com.yarmoiseev.webapp.model.Resume;
 import com.yarmoiseev.webapp.storage.ArrayStorage;
 
