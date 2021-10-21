@@ -44,7 +44,7 @@ public class ArrayStorage {
     public void delete(String uuid) {
         int index = findIndex(uuid);
         if (index != -1) {
-            System.arraycopy(storage, index + 1, storage, index, storageSize - index);
+            System.arraycopy(storage, index + 1, storage, index, storageSize - 1 - index);
             storageSize--;
         } else System.out.println("Can't find. Resume with uuid: \"" + uuid + "\" doesn't exist");
     }
