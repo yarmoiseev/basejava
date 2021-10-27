@@ -7,28 +7,22 @@ import java.util.Arrays;
 public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
-    public void clear() {
-
+    void saveDiffer() {
+        storage = getSorted(storage);
     }
 
-    @Override
-    public void update(Resume r) {
-
-    }
-
-    @Override
-    public void save(Resume r) {
-
-    }
-
-    @Override
-    public void delete(String uuid) {
-
-    }
-
-    @Override
-    public Resume[] getAll() {
-        return new Resume[0];
+    protected Resume[] getSorted(Resume[] r) {
+        Resume[] arr = r;
+        for (int k = 1; k < storageSize; k++) {
+            Resume newElement = arr[k];
+            int index = findIndex(newElement.getUuid());
+            if (index < 0) {
+                index = -(index) - 1;
+            }
+            System.arraycopy(arr, index, arr, index + 1, k - index);
+            arr[index] = newElement;
+        }
+        return arr;
     }
 
     @Override
