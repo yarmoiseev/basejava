@@ -1,12 +1,20 @@
 package com.yarmoiseev.webapp.storage;
 
+import com.yarmoiseev.webapp.model.Resume;
+
 /**
  * Array based storage for Resumes
  */
 public class ArrayStorage extends AbstractArrayStorage {
 
     @Override
-    void saveDiffer() {
+    public void saveToStorage(Resume r, int index) {
+        if (index < 0) {
+            if (storageSize != storage.length) {
+                storage[storageSize] = r;
+                storageSize++;
+            } else System.out.println("The storage is full. Can't add new resume");
+        } else System.out.println("These resume with uuid: \"" + r.getUuid() + "\" already exist");
     }
 
     @Override
