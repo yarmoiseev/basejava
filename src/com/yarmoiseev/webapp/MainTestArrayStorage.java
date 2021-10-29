@@ -1,14 +1,14 @@
 package com.yarmoiseev.webapp;
 
 import com.yarmoiseev.webapp.model.Resume;
-import com.yarmoiseev.webapp.storage.SortedArrayStorage;
+import com.yarmoiseev.webapp.storage.ArrayStorage;
 
 /**
  * Test for your com.yarmoiseev.webapp.storage.ArrayStorage implementation
  */
 public class MainTestArrayStorage {
-    static final SortedArrayStorage ARRAY_STORAGE = new SortedArrayStorage();
-    //static final ArrayStorage ARRAY_STORAGE = new ArrayStorage();
+    //static final SortedArrayStorage ARRAY_STORAGE = new SortedArrayStorage();
+    static final ArrayStorage ARRAY_STORAGE = new ArrayStorage();
 
     public static void main(String[] args) {
         Resume r1 = new Resume();
