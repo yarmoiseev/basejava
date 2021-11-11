@@ -12,13 +12,13 @@ public abstract class AbstractArrayStorageTest {
 
     private Storage storage;
 
-    public AbstractArrayStorageTest(Storage storage) {
-        this.storage = storage;
-    }
-
     private static final String UUID_1 = "uuid1";
     private static final String UUID_2 = "uuid2";
     private static final String UUID_3 = "uuid3";
+
+    public AbstractArrayStorageTest(Storage storage) {
+        this.storage = storage;
+    }
 
     @Before
     public void setUp() throws Exception {
@@ -41,31 +41,45 @@ public abstract class AbstractArrayStorageTest {
 
     @Test
     public void update() throws Exception {
+        Resume r = new Resume(UUID_2);
+        storage.update(r);
+        Assert.assertEquals(r, storage.get(r.getUuid()));
         Assert.assertEquals(3, storage.size());
     }
 
     @Test
     public void getAll() throws Exception {
-        int i = storage.getAll().length;
-        Assert.assertEquals(3, i);
+        Resume[] resumes = new Resume[]{
+                new Resume(UUID_1),
+                new Resume(UUID_2),
+                new Resume(UUID_3)};
+
+        Assert.assertEquals(resumes, storage.getAll());
     }
 
     @Test
     public void save() throws Exception {
-        storage.save(new Resume("uuid4"));
+        Resume r = new Resume("uuid4");
+        storage.save(r);
+        Assert.assertEquals(r, storage.get(r.getUuid()));
         Assert.assertEquals(4, storage.size());
     }
 
     @Test
     public void delete() throws Exception {
+        Resume[] resumes = new Resume[]{
+                new Resume(UUID_1),
+                new Resume(UUID_3),};
+
         storage.delete(UUID_2);
+        Assert.assertEquals(resumes, storage.getAll());
         Assert.assertEquals(2, storage.size());
     }
 
     @Test
     public void get() throws Exception {
-        Class resumeObject = storage.get(UUID_2).getClass();
-        Assert.assertEquals("Resume", resumeObject.getSimpleName());
+        Resume resume = new Resume(UUID_2);
+        Assert.assertEquals(resume, storage.get(UUID_2));
     }
 
     @Test(expected = NotExistStorageException.class)
@@ -75,9 +89,15 @@ public abstract class AbstractArrayStorageTest {
 
     @Test(expected = StorageException.class)
     public void saveStorageOverflow() throws Exception {
-        while (true) {
-            storage.save(new Resume("dummy"));
+        int j = storage.size();
+        for (int i = 0; i < 10_000 - j; i++) {
+            try {
+                storage.save(new Resume("dummy" + i));
+            } catch (StorageException se) {
+                Assert.fail("Early storage overflow");
+            }
         }
+        storage.save(new Resume("dummy"));
     }
 
     @Test(expected = ExistStorageException.class)
