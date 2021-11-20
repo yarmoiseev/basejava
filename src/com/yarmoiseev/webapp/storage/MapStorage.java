@@ -8,7 +8,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class MapStorage extends AbstractStorage {
-    private Map<String, String> storage = new LinkedHashMap<>();
+    private Map<String, Resume> storage = new LinkedHashMap<>();
 
     @Override
     public void update(Resume r) {
@@ -21,7 +21,7 @@ public class MapStorage extends AbstractStorage {
     @Override
     public void save(Resume r) {
         if (!(storage.containsKey(r.getUuid()))) {
-            storage.put(r.getUuid(), " name");
+            storage.put(r.getUuid(), r);
         } else throw new ExistStorageException(r.getUuid());
     }
 
@@ -30,7 +30,7 @@ public class MapStorage extends AbstractStorage {
         if (!(storage.containsKey(uuid))) {
             throw new NotExistStorageException(uuid);
         }
-        return new Resume(uuid + storage.get(uuid));
+        return storage.get(uuid);
     }
 
     @Override
