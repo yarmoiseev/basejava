@@ -47,12 +47,12 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume getByIndex(int index) {
+    protected Resume getByIndex(int index, String uuid) {
         return storage[index];
     }
 
     @Override
-    protected void removeByIndex(int index) {
+    protected void removeByIndex(int index, String uuid) {
         System.arraycopy(storage, index + 1, storage, index, storageSize - 1 - index);
         storageSize--;
     }

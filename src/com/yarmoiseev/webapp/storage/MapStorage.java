@@ -1,7 +1,5 @@
 package com.yarmoiseev.webapp.storage;
 
-import com.yarmoiseev.webapp.exception.ExistStorageException;
-import com.yarmoiseev.webapp.exception.NotExistStorageException;
 import com.yarmoiseev.webapp.model.Resume;
 
 import java.util.LinkedHashMap;
@@ -9,36 +7,6 @@ import java.util.Map;
 
 public class MapStorage extends AbstractStorage {
     private Map<String, Resume> storage = new LinkedHashMap<>();
-
-    @Override
-    public void update(Resume r) {
-        if (storage.containsKey(r.getUuid())) {
-            storage.remove(r.getUuid());
-            save(r);
-        } else throw new NotExistStorageException(r.getUuid());
-    }
-
-    @Override
-    public void save(Resume r) {
-        if (!(storage.containsKey(r.getUuid()))) {
-            storage.put(r.getUuid(), r);
-        } else throw new ExistStorageException(r.getUuid());
-    }
-
-    @Override
-    public Resume get(String uuid) {
-        if (!(storage.containsKey(uuid))) {
-            throw new NotExistStorageException(uuid);
-        }
-        return storage.get(uuid);
-    }
-
-    @Override
-    public void delete(String uuid) {
-        if (storage.containsKey(uuid)) {
-            storage.remove(uuid);
-        } else throw new NotExistStorageException(uuid);
-    }
 
     @Override
     public void clear() {
@@ -50,7 +18,7 @@ public class MapStorage extends AbstractStorage {
         Object[] objects = storage.keySet().toArray();
         Resume[] resumes = new Resume[storage.size()];
         for (int i = 0; i < objects.length; i++) {
-          resumes[i] = new Resume(objects[i].toString());
+            resumes[i] = new Resume(objects[i].toString());
         }
         return resumes;
     }
@@ -60,30 +28,25 @@ public class MapStorage extends AbstractStorage {
         return storage.size();
     }
 
-    @Override
     protected int findIndex(String uuid) {
-        return 0;
+        if (storage.containsKey(uuid)) {
+            return 0;
+        } else return -1;
     }
 
-    @Override
     protected void setByIndex(int index, Resume r) {
-
+        save(r);
     }
 
-    @Override
     protected void addToStorage(Resume r) {
-
+        storage.put(r.getUuid(), r);
     }
 
-    @Override
-    protected Resume getByIndex(int index) {
-        return null;
+    protected Resume getByIndex(int index, String uuid) {
+        return storage.get(uuid);
     }
 
-    @Override
-    protected void removeByIndex(int index) {
-
+    protected void removeByIndex(int index, String uuid) {
+        storage.remove(uuid);
     }
-
-
 }
