@@ -15,7 +15,7 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     public Resume[] getAll() {
-        Object[] objects = storage.keySet().toArray();
+        Object[] objects = storage.values().toArray();
         Resume[] resumes = new Resume[storage.size()];
         for (int i = 0; i < objects.length; i++) {
             resumes[i] = new Resume(objects[i].toString());
@@ -29,9 +29,7 @@ public class MapStorage extends AbstractStorage {
     }
 
     protected int findIndex(String uuid) {
-        if (storage.containsKey(uuid)) {
-            return 0;
-        } else return -1;
+      return storage.containsKey(uuid) ? 0 : -1;
     }
 
     protected void setByIndex(int index, Resume r) {
@@ -42,11 +40,11 @@ public class MapStorage extends AbstractStorage {
         storage.put(r.getUuid(), r);
     }
 
-    protected Resume getByIndex(int index, String uuid) {
+    protected Resume getByIndex(String uuid) {
         return storage.get(uuid);
     }
 
-    protected void removeByIndex(int index, String uuid) {
+    protected void removeByIndex(String uuid) {
         storage.remove(uuid);
     }
 }
