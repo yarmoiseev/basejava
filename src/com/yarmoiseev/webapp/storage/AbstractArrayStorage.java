@@ -30,33 +30,37 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return storageSize;
     }
 
-    public abstract void saveToStorage(Resume r, int index);
-
     @Override
-    protected void setByIndex(int index, Resume r) {
-        storage[index] = r;
-    }
-
-    @Override
-    protected void addToStorage(Resume r) {
-        int index = findIndex(r.getUuid());
-        if (storageSize != storage.length) {
-            saveToStorage(r, index);
+    protected void saveToStorage(Resume r, Object index) {
+        if (storageSize != STORAGE_LIMIT) {
+            insertElement(r, (Integer) index);
             storageSize++;
         } else throw new StorageException("Storage overflow ", r.getUuid());
     }
 
     @Override
-    protected Resume getByIndex(String uuid) {
-        int index = findIndex(uuid);
-        return storage[index];
+    protected void updateInStorage(Resume r, Object index) {
+        storage[(Integer) index] = r;
     }
 
     @Override
-    protected void removeByIndex(String uuid) {
-        int index = findIndex(uuid);
-        System.arraycopy(storage, index + 1, storage, index, storageSize - 1 - index);
+    protected Resume getFromStorage(Object index) {
+        return storage[(Integer) index];
+    }
+
+    @Override
+    protected void removeFromStorage(Object index) {
+        System.arraycopy(storage, (Integer) index + 1, storage, (Integer) index,
+                storageSize - 1 - (Integer) index);
         storageSize--;
     }
 
+    @Override
+    protected boolean isExist(Object index) {
+        return (Integer) index >= 0;
+    }
+
+    protected abstract void insertElement(Resume r, int index);
+
+    protected abstract Integer getSearchKey(String uuid);
 }
