@@ -3,6 +3,7 @@ package com.yarmoiseev.webapp.storage;
 import com.yarmoiseev.webapp.model.Resume;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -18,10 +19,10 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    public Resume[] getAll() {
-        Resume[] resumes = new Resume[storage.size()];
-        resumes = storage.toArray(resumes);
-        return resumes;
+    public List<Resume> getAllSorted() {
+        ArrayList<Resume> resumeArrayList = new ArrayList<>(storage);
+        Collections.sort(resumeArrayList);
+        return resumeArrayList;
     }
 
     @Override

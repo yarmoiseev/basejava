@@ -3,7 +3,10 @@ package com.yarmoiseev.webapp.storage;
 import com.yarmoiseev.webapp.exception.StorageException;
 import com.yarmoiseev.webapp.model.Resume;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Array based storage for Resumes
@@ -22,8 +25,10 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     /**
      * @return array, contains only Resumes in storage (without null)
      */
-    public Resume[] getAll() {
-        return Arrays.copyOf(storage, storageSize);
+    public List<Resume> getAllSorted() {
+        ArrayList<Resume> resumeArrayList = new ArrayList<>(Arrays.asList(Arrays.copyOf(storage, storageSize)));
+        Collections.sort(resumeArrayList);
+        return resumeArrayList;
     }
 
     public int size() {

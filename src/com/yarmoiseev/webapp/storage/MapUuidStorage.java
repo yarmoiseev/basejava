@@ -2,11 +2,9 @@ package com.yarmoiseev.webapp.storage;
 
 import com.yarmoiseev.webapp.model.Resume;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
-public class MapStorage extends AbstractStorage {
+public class MapUuidStorage extends AbstractStorage {
     private Map<String, Resume> storage = new LinkedHashMap<>();
 
     @Override
@@ -15,8 +13,10 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    public Resume[] getAll() {
-        return new ArrayList<>(storage.values()).toArray(new Resume[0]);
+    public List<Resume> getAllSorted() {
+        ArrayList<Resume> resumeArrayList = new ArrayList<>(storage.values());
+        Collections.sort(resumeArrayList);
+        return resumeArrayList;
     }
 
     @Override
