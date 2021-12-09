@@ -7,15 +7,7 @@ import java.util.Comparator;
 
 public class SortedArrayStorage extends AbstractArrayStorage {
 
-    private static final Comparator<Resume> RESUME_COMPARATOR = new Comparator<Resume>() {
-        @Override
-        public int compare(Resume o1, Resume o2) {
-            if (o1.getFullName().compareTo(o2.getFullName()) == 0) {
-                return o1.getUuid().compareTo(o2.getUuid());
-            }
-            return -1;
-        }
-    };
+    private static final Comparator<Resume> RESUME_COMPARATOR = Comparator.comparing(Resume::getFullName).thenComparing(Resume::getUuid);
 
     @Override
     protected void insertElement(Resume r, int index) {
