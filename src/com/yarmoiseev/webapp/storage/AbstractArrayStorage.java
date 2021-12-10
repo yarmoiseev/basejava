@@ -3,9 +3,7 @@ package com.yarmoiseev.webapp.storage;
 import com.yarmoiseev.webapp.exception.StorageException;
 import com.yarmoiseev.webapp.model.Resume;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -20,15 +18,6 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     public void clear() {
         Arrays.fill(storage, 0, storageSize, null);
         storageSize = 0;
-    }
-
-    /**
-     * @return array, contains only Resumes in storage (without null)
-     */
-    public List<Resume> getAllSorted() {
-        ArrayList<Resume> resumeArrayList = new ArrayList<>(Arrays.asList(Arrays.copyOf(storage, storageSize)));
-        Collections.sort(resumeArrayList);
-        return resumeArrayList;
     }
 
     public int size() {
@@ -68,4 +57,9 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     protected abstract void insertElement(Resume r, int index);
 
     protected abstract Integer getSearchKey(String uuid);
+
+    @Override
+    protected List<Resume> getListFromStorage() {
+        return Arrays.asList(Arrays.copyOf(storage, storageSize));
+    }
 }

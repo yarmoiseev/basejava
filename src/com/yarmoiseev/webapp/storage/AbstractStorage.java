@@ -4,6 +4,10 @@ import com.yarmoiseev.webapp.exception.ExistStorageException;
 import com.yarmoiseev.webapp.exception.NotExistStorageException;
 import com.yarmoiseev.webapp.model.Resume;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public abstract class AbstractStorage implements Storage {
 
     public void update(Resume r) {
@@ -42,6 +46,12 @@ public abstract class AbstractStorage implements Storage {
         return searchKey;
     }
 
+    public List<Resume> getAllSorted() {
+        ArrayList<Resume> resumeArrayList = new ArrayList<>(getListFromStorage());
+        Collections.sort(resumeArrayList);
+        return resumeArrayList;
+    }
+
     protected abstract void saveToStorage(Resume r, Object searchKey);
 
     protected abstract void updateInStorage(Resume r, Object searchKey);
@@ -53,6 +63,8 @@ public abstract class AbstractStorage implements Storage {
     protected abstract Object getSearchKey(String uuid);
 
     protected abstract boolean isExist(Object searchKey);
+
+    protected abstract List<Resume> getListFromStorage();
 
 
 }

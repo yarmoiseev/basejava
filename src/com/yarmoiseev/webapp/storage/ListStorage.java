@@ -3,7 +3,6 @@ package com.yarmoiseev.webapp.storage;
 import com.yarmoiseev.webapp.model.Resume;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -16,13 +15,6 @@ public class ListStorage extends AbstractStorage {
     @Override
     public void clear() {
         storage.clear();
-    }
-
-    @Override
-    public List<Resume> getAllSorted() {
-        ArrayList<Resume> resumeArrayList = new ArrayList<>(storage);
-        Collections.sort(resumeArrayList);
-        return resumeArrayList;
     }
 
     @Override
@@ -63,5 +55,10 @@ public class ListStorage extends AbstractStorage {
     @Override
     protected boolean isExist(Object searchKey) {
         return searchKey != null;
+    }
+
+    @Override
+    protected List<Resume> getListFromStorage() {
+        return storage;
     }
 }
