@@ -81,12 +81,12 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void delete() throws Exception {
-        Resume[] expectedResumes = new Resume[]{
-                new Resume(UUID_1, "full name"),
-                new Resume(UUID_3, "full name"),};
+        List<Resume> resumeList = new ArrayList<>();
+        resumeList.add(new Resume(UUID_1, "full name"));
+        resumeList.add(new Resume(UUID_3, "full name"));
 
         storage.delete(UUID_2);
-        assertArrayEquals(expectedResumes, storage.getAllSorted().toArray());
+        assertEquals(resumeList, storage.getAllSorted());
         assertEquals(2, storage.size());
     }
 
