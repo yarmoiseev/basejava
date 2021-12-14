@@ -4,7 +4,7 @@ import com.yarmoiseev.webapp.model.Resume;
 
 import java.util.*;
 
-public class MapResumeStorage extends AbstractStorage {
+public class MapResumeStorage extends AbstractStorage<Resume> {
     private Map<String, Resume> storage = new LinkedHashMap<>();
 
     @Override
@@ -19,33 +19,33 @@ public class MapResumeStorage extends AbstractStorage {
 
 
     @Override
-    protected void saveToStorage(Resume r, Object resumeAsKey) {
+    protected void saveToStorage(Resume r, Resume resumeAsKey) {
         storage.put(r.getUuid(), r);
     }
 
     @Override
-    protected void updateInStorage(Resume r, Object resumeAsKey) {
+    protected void updateInStorage(Resume r, Resume resumeAsKey) {
         storage.replace(r.getUuid(), r);
     }
 
     @Override
-    protected Resume getFromStorage(Object resumeAsKey) {
-        return (Resume) resumeAsKey;
+    protected Resume getFromStorage(Resume resumeAsKey) {
+        return resumeAsKey;
     }
 
     @Override
-    protected void removeFromStorage(Object resumeAsKey) {
-        Resume r = (Resume) resumeAsKey;
+    protected void removeFromStorage(Resume resumeAsKey) {
+        Resume r = resumeAsKey;
         storage.remove(r.getUuid());
     }
 
     @Override
-    protected Object getSearchKey(String uuid) {
-            return storage.get(uuid);
+    protected Resume getSearchKey(String uuid) {
+        return storage.get(uuid);
     }
 
     @Override
-    protected boolean isExist(Object resumeAsKey) {
+    protected boolean isExist(Resume resumeAsKey) {
         return resumeAsKey != null;
     }
 

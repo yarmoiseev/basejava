@@ -9,7 +9,7 @@ import java.util.List;
  * ArrayList based storage for Resumes
  */
 
-public class ListStorage extends AbstractStorage {
+public class ListStorage extends AbstractStorage<Integer> {
     private List<Resume> storage = new ArrayList<>();
 
     @Override
@@ -23,27 +23,27 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected void saveToStorage(Resume r, Object searchKey) {
+    protected void saveToStorage(Resume r, Integer searchKey) {
         storage.add(r);
     }
 
     @Override
-    protected void updateInStorage(Resume r, Object searchKey) {
-        storage.set((Integer) searchKey, r);
+    protected void updateInStorage(Resume r, Integer searchKey) {
+        storage.set(searchKey, r);
     }
 
     @Override
-    protected Resume getFromStorage(Object searchKey) {
-        return storage.get((Integer) searchKey);
+    protected Resume getFromStorage(Integer searchKey) {
+        return storage.get(searchKey);
     }
 
     @Override
-    protected void removeFromStorage(Object searchKey) {
-        storage.remove(((Integer) searchKey).intValue());
+    protected void removeFromStorage(Integer searchKey) {
+        storage.remove(searchKey.intValue());
     }
 
     @Override
-    protected Object getSearchKey(String uuid) {
+    protected Integer getSearchKey(String uuid) {
         for (int i = 0; i < storage.size(); i++) {
             if (storage.get(i).getUuid().equals(uuid)) {
                 return i;
@@ -53,7 +53,7 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean isExist(Object searchKey) {
+    protected boolean isExist(Integer searchKey) {
         return searchKey != null;
     }
 
