@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2021-12-22T08:52:48.730Z" agent="5.0 (Windows)" etag="7N1T_nA6YnxZTnppWxJt" version="15.9.6" type="github">
+<mxfile host="app.diagrams.net" modified="2021-12-22T08:55:07.363Z" agent="5.0 (Windows)" etag="-w5OqU-jDSahOzBl5gN8" version="15.9.6" type="github">
   <diagram id="H2XXT-WdWfryleY7fu1X" name="Page-1">
     <mxGraphModel dx="1360" dy="764" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
       <root>
@@ -7,7 +7,7 @@
         <mxCell id="OPYg37eZWYAAYH3z6QWN-2" value="Resume" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" parent="1" vertex="1">
           <mxGeometry x="37" y="90" width="220" height="108" as="geometry" />
         </mxCell>
-        <mxCell id="OPYg37eZWYAAYH3z6QWN-3" value="- uuid: String&#xa;- fullName: String&#xa;- contacts: Map&lt;ContactType, String&gt;&#xa;- Sections: Map&lt;SectionType, Section&gt;&#xa;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="OPYg37eZWYAAYH3z6QWN-2" vertex="1">
+        <mxCell id="OPYg37eZWYAAYH3z6QWN-3" value="- uuid: String&#xa;- fullName: String&#xa;- contacts: Map&lt;ContactType, String&gt;&#xa;- sections: Map&lt;SectionType, Section&gt;&#xa;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="OPYg37eZWYAAYH3z6QWN-2" vertex="1">
           <mxGeometry y="26" width="220" height="74" as="geometry" />
         </mxCell>
         <mxCell id="OPYg37eZWYAAYH3z6QWN-4" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;" parent="OPYg37eZWYAAYH3z6QWN-2" vertex="1">
