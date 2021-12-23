@@ -10,7 +10,7 @@ public class MainCollections {
 
     private static final String UUID_2 = "uuid2";
     private static final Resume RESUME_2 = new Resume(UUID_2, "full name");
- 
+
     private static final String UUID_3 = "uuid3";
     private static final Resume RESUME_3 = new Resume(UUID_3, "full name");
 
