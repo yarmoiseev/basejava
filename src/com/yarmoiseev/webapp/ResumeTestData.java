@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ResumeTestData {
-    public static void main(String[] args) {
+    public static void main(String[] args) { //Todo some shit
 
         List<String> achievements = new ArrayList<>();
 
