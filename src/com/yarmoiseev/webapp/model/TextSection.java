@@ -1,7 +1,7 @@
 package com.yarmoiseev.webapp.model;
 
-public class TextSection extends Section {
-    public String text;
+public class TextSection extends AbstractSection {
+    private String text;
 
     public TextSection(String text) {
         this.text = text;

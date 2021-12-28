@@ -2,8 +2,8 @@ package com.yarmoiseev.webapp.model;
 
 import java.util.List;
 
-public class BulletTextSection extends Section {
-    public List<String> items;
+public class BulletTextSection extends AbstractSection {
+    private List<String> items;
 
     public BulletTextSection(List<String> items) {
         this.items = items;

@@ -1,8 +1,8 @@
 package com.yarmoiseev.webapp.model;
 
 public class Link {
-    String name;
-    String url;
+    private String name;
+    private String url;
 
     public Link(String name, String url) {
         this.name = name;

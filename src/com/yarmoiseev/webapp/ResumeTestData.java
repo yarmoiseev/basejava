@@ -2,21 +2,14 @@ package com.yarmoiseev.webapp;
 
 import com.yarmoiseev.webapp.model.*;
 
-
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ResumeTestData {
     public static void main(String[] args) {
-        Map<ContactType, String> contacts = new HashMap<>();
-        Map<SectionType, Section> sections = new HashMap<>();
+
         List<String> achievements = new ArrayList<>();
-        List<String> qualifications = new ArrayList<>();
-        List<OrgItem> experience = new ArrayList<>();
-        List<OrgItem> education = new ArrayList<>();
 
         achievements.add("С 2013 года: разработка проектов \"Разработка Web приложения\"," +
                 "\"Java Enterprise\", \"Многомодульный maven. Многопоточность. XML (JAXB/StAX). " +
@@ -29,17 +22,21 @@ public class ResumeTestData {
                 "стеке: Scala/Play/Anorm/JQuery. Разработка SSO аутентификации и авторизации различных ERP " +
                 "модулей, интеграция CIFS/SMB java сервера. ");
 
+        List<String> qualifications = new ArrayList<>();
+
         qualifications.add("JEE AS: GlassFish (v2.1, v3), OC4J, JBoss, Tomcat, Jetty, WebLogic, WSO2 ");
         qualifications.add("Version control: Subversion, Git, Mercury, ClearCase, Perforce ");
         qualifications.add("DB: PostgreSQL(наследование, pgplsql, PL/Python), Redis (Jedis), H2, Oracle, ");
         qualifications.add("MySQL, SQLite, MS SQL, HSQLDB ");
+
+        List<OrgItem> experience = new ArrayList<>();
 
         experience.add(new OrgItem(
                 new Link("Java Online Projects", "https://javaops.ru/"),
                 LocalDate.of(2013, 10, 1),
                 LocalDate.now(),
                 "Автор проекта.",
-                "Создание, организация и проведение Java онлайн проектов и стажировок." + "\n"));
+                "Создание, организация и проведение Java онлайн проектов и стажировок."));
         experience.add(new OrgItem(
                 new Link("Wrike", "https://www.wrike.com/vn/"),
                 LocalDate.of(2014, 10, 1),
@@ -47,7 +44,7 @@ public class ResumeTestData {
                 "Старший разработчик (backend)",
                 "Проектирование и разработка онлайн платформы управления проектами " +
                         "Wrike (Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, " +
-                        "Redis). Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO." + "\n"));
+                        "Redis). Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO."));
         experience.add(new OrgItem(
                 new Link("RIT Center", ""),
                 LocalDate.of(2012, 4, 1),
@@ -60,7 +57,9 @@ public class ResumeTestData {
                         "сервисов общего назначения (почта, экспорт в pdf, doc, html). Интеграция Alfresco JLAN " +
                         "для online редактирование из браузера документов MS Office. Maven + plugin development, " +
                         "Ant, Apache Commons, Spring security, Spring MVC, Tomcat,WSO2, xcmis, OpenCmis, Bonita, " +
-                        "Python scripting, Unix shell remote scripting via ssh tunnels, PL/Python" + "\n"));
+                        "Python scripting, Unix shell remote scripting via ssh tunnels, PL/Python"));
+
+        List<OrgItem> education = new ArrayList<>();
 
         education.add(new OrgItem(
                 new Link("Coursera", "https://www.coursera.org/learn/scala-functional-programming"),
@@ -82,44 +81,40 @@ public class ResumeTestData {
                 "3 месяца обучения мобильным IN сетям (Берлин)",
                 ""));
 
-        Section objSection = new TextSection("Ведущий стажировок и корпоративного обучения " +
+        AbstractSection objSection = new TextSection("Ведущий стажировок и корпоративного обучения " +
                 "по Java Web и Enterprise технологиям");
-        Section persSection = new TextSection("Аналитический склад ума, сильная логика, креативность, " +
+        AbstractSection persSection = new TextSection("Аналитический склад ума, сильная логика, креативность, " +
                 "инициативность. Пурист кода и архитектуры. ");
-        Section achieveSection = new BulletTextSection(achievements);
-        Section qualSection = new BulletTextSection(qualifications);
-        Section expSection = new OrgTextSection(experience);
-        Section eduSection = new OrgTextSection(education);
+        AbstractSection achieveSection = new BulletTextSection(achievements);
+        AbstractSection qualSection = new BulletTextSection(qualifications);
+        AbstractSection expSection = new OrganizationListSection(experience);
+        AbstractSection eduSection = new OrganizationListSection(education);
 
-        contacts.put(ContactType.TEL, "+7(921) 855-0482");
-        contacts.put(ContactType.SKYPE, "grigory.kislin");
-        contacts.put(ContactType.MAIL, "gkislin@yandex.ru");
-        contacts.put(ContactType.LINKEDIN, "https://www.linkedin.com/in/gkislin");
-        contacts.put(ContactType.GITHUB, "https://github.com/gkislin");
-        contacts.put(ContactType.STACKOVERFLOW, "https://stackoverflow.com/users/548473/grigory-kislin");
-        contacts.put(ContactType.HOMEPAGE, "http://gkislin.ru/");
+        Resume resume = new Resume("Григорий Кислин");
 
+        resume.contacts.put(ContactType.TEL, "+7(921) 855-0482");
+        resume.contacts.put(ContactType.SKYPE, "grigory.kislin");
+        resume.contacts.put(ContactType.MAIL, "gkislin@yandex.ru");
+        resume.contacts.put(ContactType.LINKEDIN, "https://www.linkedin.com/in/gkislin");
+        resume.contacts.put(ContactType.GITHUB, "https://github.com/gkislin");
+        resume.contacts.put(ContactType.STACKOVERFLOW, "https://stackoverflow.com/users/548473/grigory-kislin");
+        resume.contacts.put(ContactType.HOMEPAGE, "http://gkislin.ru/");
 
-        sections.put(SectionType.OBJECTIVE, objSection);
-        sections.put(SectionType.PERSONAL, persSection);
-        sections.put(SectionType.ACHIEVEMENT, achieveSection);
-        sections.put(SectionType.QUALIFICATIONS, qualSection);
-        sections.put(SectionType.EXPERIENCE, expSection);
-        sections.put(SectionType.EDUCATION, eduSection);
-
-        Resume resume = new Resume("uuid10","Григорий Кислин", contacts, sections);
+        resume.sections.put(SectionType.OBJECTIVE, objSection);
+        resume.sections.put(SectionType.PERSONAL, persSection);
+        resume.sections.put(SectionType.ACHIEVEMENT, achieveSection);
+        resume.sections.put(SectionType.QUALIFICATIONS, qualSection);
+        resume.sections.put(SectionType.EXPERIENCE, expSection);
+        resume.sections.put(SectionType.EDUCATION, eduSection);
 
         System.out.println(resume.getFullName() + "\n");
 
-        Map<ContactType, String> contactsToPrint = resume.getContacts();
-        Map<SectionType, Section> sectionsToPrint = resume.getSections();
-
         for (ContactType c : ContactType.values()) {
-            System.out.println(c + " : " + contactsToPrint.get(c) + "\n");
+            System.out.println(c + " : " + resume.getContacts(c) + "\n");
         }
 
         for (SectionType s : SectionType.values()) {
-            System.out.println(s + "\n" + sectionsToPrint.get(s).toString() + "\n");
+            System.out.println(s + "\n" + resume.getSections(s).toString() + "\n");
         }
     }
 }

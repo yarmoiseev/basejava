@@ -4,11 +4,11 @@ package com.yarmoiseev.webapp.model;
 import java.time.LocalDate;
 
 public class OrgItem {
-    public Link name;
-    public LocalDate startDate;
-    public LocalDate endDate;
-    public String title;
-    public String description;
+    private Link name;
+    private LocalDate startDate;
+    private LocalDate endDate;
+    private String title;
+    private String description;
 
     public OrgItem(Link name, LocalDate startDate, LocalDate endDate, String title, String description) {
         this.name = name;

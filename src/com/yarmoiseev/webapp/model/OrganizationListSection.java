@@ -2,10 +2,10 @@ package com.yarmoiseev.webapp.model;
 
 import java.util.List;
 
-public class OrgTextSection extends Section {
-    public List<OrgItem> items;
+public class OrganizationListSection extends AbstractSection {
+    private List<OrgItem> items;
 
-    public OrgTextSection(List<OrgItem> items) {
+    public OrganizationListSection(List<OrgItem> items) {
         this.items = items;
     }
 
