@@ -3,8 +3,7 @@ package com.yarmoiseev.webapp;
 import com.yarmoiseev.webapp.model.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class ResumeTestData {
     public static void main(String[] args) {
@@ -31,55 +30,66 @@ public class ResumeTestData {
 
         List<OrgItem> experience = new ArrayList<>();
 
+
+
         experience.add(new OrgItem(
                 new Link("Java Online Projects", "https://javaops.ru/"),
-                LocalDate.of(2013, 10, 1),
-                LocalDate.now(),
-                "Автор проекта.",
-                "Создание, организация и проведение Java онлайн проектов и стажировок."));
+                new TreeSet<>(Arrays.asList(new OrgPeriod(LocalDate.of(2013, 10, 1),
+                        LocalDate.of(2021, 12, 31),
+                        "Автор проекта.",
+                        "Создание, организация и проведение Java онлайн проектов и стажировок."),
+                        new OrgPeriod(LocalDate.of(2022, 01, 1),
+                                LocalDate.of(2030, 01, 01),
+                                "Супер-должность", "Тестовое описание")))
+                ));
         experience.add(new OrgItem(
                 new Link("Wrike", "https://www.wrike.com/vn/"),
-                LocalDate.of(2014, 10, 1),
-                LocalDate.of(2016, 1, 1),
-                "Старший разработчик (backend)",
-                "Проектирование и разработка онлайн платформы управления проектами " +
-                        "Wrike (Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, " +
-                        "Redis). Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO."));
+                new TreeSet<>(Arrays.asList(new OrgPeriod(LocalDate.of(2014, 10, 1),
+                        LocalDate.of(2016, 1, 1),
+                        "Старший разработчик (backend)",
+                        "Проектирование и разработка онлайн платформы управления проектами " +
+                                "Wrike (Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, " +
+                                "Redis). Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO.")))
+                ));
         experience.add(new OrgItem(
                 new Link("RIT Center", ""),
-                LocalDate.of(2012, 4, 1),
-                LocalDate.of(2014, 10, 1),
-                "Java архитектор",
-                "Организация процесса разработки системы ERP для разных окружений: релизная политика, " +
-                        "версионирование, ведение CI (Jenkins), миграция базы (кастомизация Flyway), " +
-                        "конфигурирование системы (pgBoucer, Nginx), AAA via SSO. Архитектура БД и серверной " +
-                        "части системы. Разработка интергационных сервисов: CMIS, BPMN2, 1C (WebServices), " +
-                        "сервисов общего назначения (почта, экспорт в pdf, doc, html). Интеграция Alfresco JLAN " +
-                        "для online редактирование из браузера документов MS Office. Maven + plugin development, " +
-                        "Ant, Apache Commons, Spring security, Spring MVC, Tomcat,WSO2, xcmis, OpenCmis, Bonita, " +
-                        "Python scripting, Unix shell remote scripting via ssh tunnels, PL/Python"));
+                new TreeSet<>(Arrays.asList(new OrgPeriod(LocalDate.of(2012, 4, 1),
+                        LocalDate.of(2014, 10, 1),
+                        "Java архитектор",
+                        "Организация процесса разработки системы ERP для разных окружений: релизная политика, " +
+                                "версионирование, ведение CI (Jenkins), миграция базы (кастомизация Flyway), " +
+                                "конфигурирование системы (pgBoucer, Nginx), AAA via SSO. Архитектура БД и серверной " +
+                                "части системы. Разработка интергационных сервисов: CMIS, BPMN2, 1C (WebServices), " +
+                                "сервисов общего назначения (почта, экспорт в pdf, doc, html). Интеграция Alfresco JLAN " +
+                                "для online редактирование из браузера документов MS Office. Maven + plugin development, " +
+                                "Ant, Apache Commons, Spring security, Spring MVC, Tomcat,WSO2, xcmis, OpenCmis, Bonita, " +
+                                "Python scripting, Unix shell remote scripting via ssh tunnels, PL/Python")))
+                ));
 
         List<OrgItem> education = new ArrayList<>();
 
         education.add(new OrgItem(
                 new Link("Coursera", "https://www.coursera.org/learn/scala-functional-programming"),
-                LocalDate.of(2013, 3, 1),
-                LocalDate.of(2013, 5, 1),
-                "\"Functional Programming Principles in Scala\" by Martin Odersky",
-                ""));
+                new TreeSet<>(Arrays.asList(new OrgPeriod(LocalDate.of(2013, 3, 1),
+                        LocalDate.of(2013, 5, 1),
+                        "\"Functional Programming Principles in Scala\" by Martin Odersky",
+                        "")))
+                ));
         education.add(new OrgItem(
                 new Link("Luxoft", "https://www.luxoft-training.ru/kurs/obektno-orientirovannyy_" +
                         "analiz_i_proektirovanie_na_uml.html"),
-                LocalDate.of(2011, 3, 1),
-                LocalDate.of(2011, 4, 1),
-                "Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.\"",
-                ""));
+                new TreeSet<>(Arrays.asList(new OrgPeriod(LocalDate.of(2011, 3, 1),
+                        LocalDate.of(2011, 4, 1),
+                        "Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.\"",
+                        "")))
+                ));
         education.add(new OrgItem(
                 new Link("Siemens AG", "https://new.siemens.com/ru/ru.html"),
-                LocalDate.of(2005, 1, 1),
-                LocalDate.of(2005, 4, 1),
-                "3 месяца обучения мобильным IN сетям (Берлин)",
-                ""));
+                new TreeSet<>(Arrays.asList(new OrgPeriod(LocalDate.of(2005, 1, 1),
+                        LocalDate.of(2005, 4, 1),
+                        "3 месяца обучения мобильным IN сетям (Берлин)",
+                        "")))
+                ));
 
         AbstractSection objSection = new TextSection("Ведущий стажировок и корпоративного обучения " +
                 "по Java Web и Enterprise технологиям");

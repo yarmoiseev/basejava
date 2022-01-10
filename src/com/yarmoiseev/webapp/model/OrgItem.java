@@ -1,27 +1,25 @@
 package com.yarmoiseev.webapp.model;
 
 
-import java.time.LocalDate;
+import java.util.SortedSet;
 
 public class OrgItem {
     private Link name;
-    private LocalDate startDate;
-    private LocalDate endDate;
-    private String title;
-    private String description;
+    private SortedSet<OrgPeriod> periodsSet;
 
-    public OrgItem(Link name, LocalDate startDate, LocalDate endDate, String title, String description) {
+    public OrgItem(Link name, SortedSet<OrgPeriod> periodsSet) {
         this.name = name;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.title = title;
-        this.description = description;
+        this.periodsSet = periodsSet;
     }
 
     @Override
     public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(name.toString() + "\n");
 
-        return name.toString() + "\n" + startDate.toString() + " - " +
-                endDate.toString() + "\n" + title + "\n" + description;
+        for (OrgPeriod p : periodsSet) {
+            sb.append(p.toString());
+        }
+        return sb.toString();
     }
 }
