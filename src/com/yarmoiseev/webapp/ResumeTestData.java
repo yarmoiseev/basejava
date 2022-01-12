@@ -2,12 +2,27 @@ package com.yarmoiseev.webapp;
 
 import com.yarmoiseev.webapp.model.*;
 
-import java.time.LocalDate;
-import java.util.*;
+import java.time.Month;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ResumeTestData {
     public static void main(String[] args) {
 
+        Resume resume = createResume("uuid001", "Григорий Кислин");;
+
+        System.out.println(resume.getFullName() + "\n");
+
+        for (ContactType c : ContactType.values()) {
+            System.out.println(c + " : " + resume.getContacts(c) + "\n");
+        }
+
+        for (SectionType s : SectionType.values()) {
+            System.out.println(s + "\n" + resume.getSections(s).toString() + "\n");
+        }
+    }
+
+    public static Resume createResume(String uuid, String fullName) {
         List<String> achievements = new ArrayList<>();
 
         achievements.add("С 2013 года: разработка проектов \"Разработка Web приложения\"," +
@@ -30,32 +45,17 @@ public class ResumeTestData {
 
         List<OrgItem> experience = new ArrayList<>();
 
-
-
-        experience.add(new OrgItem(
-                new Link("Java Online Projects", "https://javaops.ru/"),
-                new TreeSet<>(Arrays.asList(new OrgPeriod(LocalDate.of(2013, 10, 1),
-                        LocalDate.of(2021, 12, 31),
-                        "Автор проекта.",
-                        "Создание, организация и проведение Java онлайн проектов и стажировок."),
-                        new OrgPeriod(LocalDate.of(2022, 01, 1),
-                                LocalDate.of(2030, 01, 01),
-                                "Супер-должность", "Тестовое описание")))
-                ));
-        experience.add(new OrgItem(
-                new Link("Wrike", "https://www.wrike.com/vn/"),
-                new TreeSet<>(Arrays.asList(new OrgPeriod(LocalDate.of(2014, 10, 1),
-                        LocalDate.of(2016, 1, 1),
+        experience.add(new OrgItem("Java Online Projects", "https://javaops.ru/",
+                new OrgItem.OrgPeriod(2013, Month.DECEMBER, "Автор проекта.",
+                        "Создание, организация и проведение Java онлайн проектов и стажировок.")));
+        experience.add(new OrgItem("Wrike", "https://www.wrike.com/vn/",
+                new OrgItem.OrgPeriod(2014, Month.DECEMBER, 2016, Month.JANUARY,
                         "Старший разработчик (backend)",
                         "Проектирование и разработка онлайн платформы управления проектами " +
                                 "Wrike (Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, " +
-                                "Redis). Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO.")))
-                ));
-        experience.add(new OrgItem(
-                new Link("RIT Center", ""),
-                new TreeSet<>(Arrays.asList(new OrgPeriod(LocalDate.of(2012, 4, 1),
-                        LocalDate.of(2014, 10, 1),
-                        "Java архитектор",
+                                "Redis). Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO.")));
+        experience.add(new OrgItem("RIT Center", "",
+                new OrgItem.OrgPeriod(2012, Month.APRIL, 2014, Month.DECEMBER, "Java архитектор",
                         "Организация процесса разработки системы ERP для разных окружений: релизная политика, " +
                                 "версионирование, ведение CI (Jenkins), миграция базы (кастомизация Flyway), " +
                                 "конфигурирование системы (pgBoucer, Nginx), AAA via SSO. Архитектура БД и серверной " +
@@ -63,33 +63,25 @@ public class ResumeTestData {
                                 "сервисов общего назначения (почта, экспорт в pdf, doc, html). Интеграция Alfresco JLAN " +
                                 "для online редактирование из браузера документов MS Office. Maven + plugin development, " +
                                 "Ant, Apache Commons, Spring security, Spring MVC, Tomcat,WSO2, xcmis, OpenCmis, Bonita, " +
-                                "Python scripting, Unix shell remote scripting via ssh tunnels, PL/Python")))
-                ));
+                                "Python scripting, Unix shell remote scripting via ssh tunnels, PL/Python")));
 
         List<OrgItem> education = new ArrayList<>();
 
-        education.add(new OrgItem(
-                new Link("Coursera", "https://www.coursera.org/learn/scala-functional-programming"),
-                new TreeSet<>(Arrays.asList(new OrgPeriod(LocalDate.of(2013, 3, 1),
-                        LocalDate.of(2013, 5, 1),
+        education.add(new OrgItem("Coursera", "https://www.coursera.org/learn/scala-functional-programming",
+                new OrgItem.OrgPeriod(2031, Month.MARCH, 2013, Month.MAY,
                         "\"Functional Programming Principles in Scala\" by Martin Odersky",
-                        "")))
-                ));
-        education.add(new OrgItem(
-                new Link("Luxoft", "https://www.luxoft-training.ru/kurs/obektno-orientirovannyy_" +
-                        "analiz_i_proektirovanie_na_uml.html"),
-                new TreeSet<>(Arrays.asList(new OrgPeriod(LocalDate.of(2011, 3, 1),
-                        LocalDate.of(2011, 4, 1),
+                        "")));
+        education.add(new OrgItem("Luxoft", "https://www.luxoft-training.ru",
+                new OrgItem.OrgPeriod(2011, Month.MARCH, 2011, Month.APRIL,
                         "Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.\"",
-                        "")))
-                ));
-        education.add(new OrgItem(
-                new Link("Siemens AG", "https://new.siemens.com/ru/ru.html"),
-                new TreeSet<>(Arrays.asList(new OrgPeriod(LocalDate.of(2005, 1, 1),
-                        LocalDate.of(2005, 4, 1),
+                        "")));
+        education.add(new OrgItem("Siemens AG", "https://new.siemens.com/ru/ru.html",
+                new OrgItem.OrgPeriod(2005, Month.JANUARY, 2005, Month.APRIL,
                         "3 месяца обучения мобильным IN сетям (Берлин)",
-                        "")))
-                ));
+                        ""),
+                new OrgItem.OrgPeriod(2005, Month.MAY, 2006, Month.JANUARY,
+                        "Тест дополнительного периода",
+                        "Тестовый текст")));
 
         AbstractSection objSection = new TextSection("Ведущий стажировок и корпоративного обучения " +
                 "по Java Web и Enterprise технологиям");
@@ -100,7 +92,7 @@ public class ResumeTestData {
         AbstractSection expSection = new OrganizationListSection(experience);
         AbstractSection eduSection = new OrganizationListSection(education);
 
-        Resume resume = new Resume("Григорий Кислин");
+        Resume resume = new Resume(uuid, fullName);
 
         resume.contacts.put(ContactType.TEL, "+7(921) 855-0482");
         resume.contacts.put(ContactType.SKYPE, "grigory.kislin");
@@ -117,14 +109,6 @@ public class ResumeTestData {
         resume.sections.put(SectionType.EXPERIENCE, expSection);
         resume.sections.put(SectionType.EDUCATION, eduSection);
 
-        System.out.println(resume.getFullName() + "\n");
-
-        for (ContactType c : ContactType.values()) {
-            System.out.println(c + " : " + resume.getContacts(c) + "\n");
-        }
-
-        for (SectionType s : SectionType.values()) {
-            System.out.println(s + "\n" + resume.getSections(s).toString() + "\n");
-        }
+        return resume;
     }
 }

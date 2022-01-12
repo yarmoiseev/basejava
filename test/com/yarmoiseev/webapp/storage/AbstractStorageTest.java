@@ -1,5 +1,6 @@
 package com.yarmoiseev.webapp.storage;
 
+import com.yarmoiseev.webapp.ResumeTestData;
 import com.yarmoiseev.webapp.exception.ExistStorageException;
 import com.yarmoiseev.webapp.exception.NotExistStorageException;
 import com.yarmoiseev.webapp.model.Resume;
@@ -26,9 +27,9 @@ public abstract class AbstractStorageTest {
     @Before
     public void setUp() throws Exception {
         storage.clear();
-        storage.save(new Resume(UUID_1, "full name"));
-        storage.save(new Resume(UUID_2, "full name"));
-        storage.save(new Resume(UUID_3, "full name"));
+        storage.save(ResumeTestData.createResume(UUID_1, "full name"));
+        storage.save(ResumeTestData.createResume(UUID_2, "full name"));
+        storage.save(ResumeTestData.createResume(UUID_3, "full name"));
     }
 
     @Test
@@ -79,15 +80,11 @@ public abstract class AbstractStorageTest {
         storage.save(new Resume(UUID_2, "full name"));
     }
 
-    @Test
+    @Test(expected = NotExistStorageException.class)
     public void delete() throws Exception {
-        List<Resume> resumeList = new ArrayList<>();
-        resumeList.add(new Resume(UUID_1, "full name"));
-        resumeList.add(new Resume(UUID_3, "full name"));
-
-        storage.delete(UUID_2);
-        assertEquals(resumeList, storage.getAllSorted());
-        assertEquals(2, storage.size());
+        storage.delete(UUID_1);
+        assertSize(2);
+        storage.get(UUID_1);
     }
 
     @Test(expected = NotExistStorageException.class)
@@ -105,4 +102,13 @@ public abstract class AbstractStorageTest {
     public void getNotExist() throws Exception {
         storage.get(UUID_4);
     }
+
+    private void assertGet(Resume r) {
+        assertEquals(r, storage.get(r.getUuid()));
+    }
+
+    private void assertSize(int size) {
+        assertEquals(size, storage.size());
+    }
+
 }

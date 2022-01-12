@@ -39,11 +39,17 @@ public class Resume implements Comparable<Resume> {
         return contacts.get(type);
     }
 
+    public void addContact (ContactType t, String s) {
+        contacts.put(t, s);
+    }
+
     public AbstractSection getSections(SectionType type) {
         return sections.get(type);
     }
 
-
+    public void addSection (SectionType s, AbstractSection a) {
+        sections.put(s, a);
+    }
 
     @Override
     public String toString() {
@@ -54,21 +60,17 @@ public class Resume implements Comparable<Resume> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Resume resume = (Resume) o;
-
-        if (!Objects.equals(uuid, resume.uuid)) return false;
-        if (!Objects.equals(fullName, resume.fullName)) return false;
-        if (!contacts.equals(resume.contacts)) return false;
-        return sections.equals(resume.sections);
+        if (!uuid.equals(resume.uuid)) return false;
+        return fullName.equals(resume.fullName);
     }
 
     @Override
     public int hashCode() {
         int result = uuid != null ? uuid.hashCode() : 0;
         result = 31 * result + (fullName != null ? fullName.hashCode() : 0);
-        result = 31 * result + contacts.hashCode();
-        result = 31 * result + sections.hashCode();
+        result = 31 * result + (contacts != null ? contacts.hashCode() : 0);
+        result = 31 * result + (sections != null ? sections.hashCode() : 0);
         return result;
     }
 
