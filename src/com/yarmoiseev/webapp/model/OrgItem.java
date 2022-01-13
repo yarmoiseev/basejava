@@ -3,7 +3,6 @@ package com.yarmoiseev.webapp.model;
 
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -14,7 +13,7 @@ import static com.yarmoiseev.webapp.util.DateUtil.of;
 
 public class OrgItem {
     private final Link name;
-    private List<OrgPeriod> periodsList = new ArrayList<>();
+    private List<OrgPeriod> periodsList;
 
     public OrgItem(Link name, List<OrgPeriod> periodsList) {
         this.name = name;
