@@ -1,6 +1,9 @@
 package com.yarmoiseev.webapp.model;
 
-public class Link {
+import java.io.Serializable;
+import java.util.Objects;
+
+public class Link implements Serializable {
     private String name;
     private String url;
 
@@ -12,5 +15,23 @@ public class Link {
     @Override
     public String toString() {
         return name + " " + url;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Link link = (Link) o;
+
+        if (!Objects.equals(name, link.name)) return false;
+        return Objects.equals(url, link.url);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (url != null ? url.hashCode() : 0);
+        return result;
     }
 }

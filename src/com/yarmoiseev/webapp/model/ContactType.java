@@ -18,4 +18,6 @@ public enum ContactType {
     public String getName() {
         return name;
     }
+
+
 }

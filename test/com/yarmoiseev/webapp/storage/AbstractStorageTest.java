@@ -7,12 +7,16 @@ import com.yarmoiseev.webapp.model.Resume;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
 public abstract class AbstractStorageTest {
+    protected static final File STORAGE_DIR = new File("D:\\GIT Repository\\baseJava\\basejava\\storage");
+
     protected Storage storage;
 
     private static final String UUID_1 = "uuid1";
@@ -47,6 +51,7 @@ public abstract class AbstractStorageTest {
     public void update() throws Exception {
         Resume r = new Resume(UUID_2, "full name");
         storage.update(r);
+//        assertTrue(r.equals(storage.get(UUID_1)));
         assertSame(r, storage.get(UUID_2));
         assertEquals(3, storage.size());
     }

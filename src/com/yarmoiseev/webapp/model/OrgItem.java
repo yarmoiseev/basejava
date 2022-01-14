@@ -1,6 +1,7 @@
 package com.yarmoiseev.webapp.model;
 
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.Arrays;
@@ -11,7 +12,7 @@ import static com.yarmoiseev.webapp.util.DateUtil.NOW;
 import static com.yarmoiseev.webapp.util.DateUtil.of;
 
 
-public class OrgItem {
+public class OrgItem implements Serializable {
     private final Link name;
     private List<OrgPeriod> periodsList;
 
@@ -53,13 +54,13 @@ public class OrgItem {
         return sb.toString();
     }
 
-    public static class OrgPeriod {
+    public static class OrgPeriod implements Serializable{
         private final LocalDate startDate;
         private final LocalDate endDate;
         private final String title;
         private final String description;
 
-        public OrgPeriod(int startYear,  Month startMonth, String title, String description) {
+        public OrgPeriod(int startYear, Month startMonth, String title, String description) {
             this(of(startYear, startMonth), NOW, title, description);
         }
 
