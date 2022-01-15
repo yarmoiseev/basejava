@@ -49,7 +49,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void update() throws Exception {
-        Resume r = new Resume(UUID_2, "full name");
+        Resume r = ResumeTestData.createResume(UUID_2, "full name");
         storage.update(r);
 //        assertTrue(r.equals(storage.get(UUID_1)));
         assertSame(r, storage.get(UUID_2));
@@ -58,22 +58,22 @@ public abstract class AbstractStorageTest {
 
     @Test(expected = NotExistStorageException.class)
     public void updateNotExist() throws Exception {
-        storage.update(new Resume(UUID_4, "full name"));
+        storage.update(ResumeTestData.createResume(UUID_4, "full name"));
     }
 
     @Test
     public void getAllSorted() throws Exception {
         List<Resume> resumeList = new ArrayList<>();
-        resumeList.add(new Resume(UUID_1, "full name"));
-        resumeList.add(new Resume(UUID_2, "full name"));
-        resumeList.add(new Resume(UUID_3, "full name"));
+        resumeList.add(ResumeTestData.createResume(UUID_1, "full name"));
+        resumeList.add(ResumeTestData.createResume(UUID_2, "full name"));
+        resumeList.add(ResumeTestData.createResume(UUID_3, "full name"));
 
         assertEquals(resumeList, storage.getAllSorted());
     }
 
     @Test
     public void save() throws Exception {
-        Resume r = new Resume(UUID_4, "full name");
+        Resume r = ResumeTestData.createResume(UUID_4, "full name");
         storage.save(r);
         assertEquals(r, storage.get(r.getUuid()));
         assertEquals(4, storage.size());
@@ -82,7 +82,7 @@ public abstract class AbstractStorageTest {
 
     @Test(expected = ExistStorageException.class)
     public void saveAlreadyExist() throws Exception {
-        storage.save(new Resume(UUID_2, "full name"));
+        storage.save(ResumeTestData.createResume(UUID_2, "full name"));
     }
 
     @Test(expected = NotExistStorageException.class)
@@ -99,7 +99,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void get() throws Exception {
-        Resume resume = new Resume(UUID_2, "full name");
+        Resume resume = ResumeTestData.createResume(UUID_2, "full name");
         assertEquals(resume, storage.get(UUID_2));
     }
 
