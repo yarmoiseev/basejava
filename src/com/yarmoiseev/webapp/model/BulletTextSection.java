@@ -7,14 +7,19 @@ import java.util.Objects;
 public class BulletTextSection extends AbstractSection {
     private static final long serialVersionUID = 1L;
 
-    private List<String> items;
+    private final List<String> items;
 
     public BulletTextSection(String... items) {
         this(Arrays.asList(items));
     }
 
     public BulletTextSection(List<String> items) {
+        Objects.requireNonNull(items, "Items mustn't be null");
         this.items = items;
+    }
+
+    public List<String> getItems() {
+        return items;
     }
 
     @Override

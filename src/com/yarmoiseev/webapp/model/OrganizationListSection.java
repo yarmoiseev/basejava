@@ -1,5 +1,6 @@
 package com.yarmoiseev.webapp.model;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -8,8 +9,17 @@ public class OrganizationListSection extends AbstractSection {
 
     private List<OrgItem> items;
 
+    public OrganizationListSection(OrgItem... item) {
+        this(Arrays.asList(item));
+    }
+
     public OrganizationListSection(List<OrgItem> items) {
+        Objects.requireNonNull(items, "Items mustn't be null");
         this.items = items;
+    }
+
+    public List<OrgItem> getItems() {
+        return items;
     }
 
     @Override

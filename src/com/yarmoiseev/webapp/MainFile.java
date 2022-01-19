@@ -1,24 +1,24 @@
 package com.yarmoiseev.webapp;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+
 
 public class MainFile {
-    private static List<File> files = new ArrayList<>();
+
 
     public static void main(String[] args) {
-        final File folder = new File(".\\");
-        listFilesForFolder(folder);
+        final File folder = new File(".\\src");
+        listFilesForFolder(folder, "");
 
     }
 
-    private static void listFilesForFolder(final File folder) {
-        for (final File fileEntry : folder.listFiles()) {
+    private static void listFilesForFolder(File folder, String offset) {
+        for (File fileEntry : folder.listFiles()) {
             if (fileEntry.isDirectory()) {
-                listFilesForFolder(fileEntry);
+                System.out.println(offset + "+ " + fileEntry.getName());
+                listFilesForFolder(fileEntry, offset + " ");
             } else {
-                System.out.println(fileEntry.getName());
+                System.out.println(offset+ "   " + fileEntry.getName());
             }
         }
     }

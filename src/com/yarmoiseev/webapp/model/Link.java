@@ -8,8 +8,17 @@ public class Link implements Serializable {
     private String url;
 
     public Link(String name, String url) {
+        Objects.requireNonNull(name, "Name mustn't be null");
         this.name = name;
         this.url = url;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getUrl() {
+        return url;
     }
 
     @Override
