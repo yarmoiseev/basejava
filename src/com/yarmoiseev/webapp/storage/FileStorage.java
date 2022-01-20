@@ -33,10 +33,10 @@ public class FileStorage extends AbstractStorage<File> {
     protected void saveToStorage(Resume r, File file) {
         try {
             file.createNewFile();
-            streamSerializer.doWrite(r, new BufferedOutputStream(new FileOutputStream((file))));
         } catch (IOException e) {
             throw new StorageException("IO error", file.getName(), e);
         }
+        updateInStorage(r, file);
     }
 
 
@@ -78,10 +78,8 @@ public class FileStorage extends AbstractStorage<File> {
 
     @Override
     protected List<Resume> getListFromStorage() {
-        File[] files = directory.listFiles();
-        if (files == null) {
-            throw new StorageException("Directory reading error", null);
-        }
+        File[] files = getFiles();
+
         List<Resume> resumeList = new ArrayList<>(files.length);
         for (File file : files) {
             resumeList.add(getFromStorage(file));
@@ -91,20 +89,22 @@ public class FileStorage extends AbstractStorage<File> {
 
     @Override
     public void clear() {
-        File[] files = directory.listFiles();
-        if (files != null) {
-            for (File file : files) {
-                removeFromStorage(file);
-            }
+        for (File file : getFiles()) {
+            removeFromStorage(file);
         }
     }
 
     @Override
     public int size() {
-        String[] list = directory.list();
-        if (list == null) {
-            throw new StorageException("Directory is already empty", null);
+        return getFiles().length;
+    }
+
+    private File[] getFiles() {
+        File[] files = directory.listFiles();
+        if (files == null) {
+            throw new StorageException("Error: Directory is empty", (Exception) null);
         }
-        return list.length;
+
+        return files;
     }
 }

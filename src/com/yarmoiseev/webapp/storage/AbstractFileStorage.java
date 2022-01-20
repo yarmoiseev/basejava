@@ -75,7 +75,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     protected List<Resume> getListFromStorage() {
         File[] files = directory.listFiles();
         if (files == null) {
-            throw new StorageException("Directory reading error", null);
+            throw new StorageException("Directory reading error", (Exception) null);
         }
         List<Resume> resumeList = new ArrayList<>(files.length);
         for (File file : files) {
@@ -98,7 +98,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     public int size() {
         String[] list = directory.list();
         if (list == null) {
-            throw new StorageException("Directory is already empty", null);
+            throw new StorageException("Directory is already empty", (Exception) null);
         }
         return list.length;
     }

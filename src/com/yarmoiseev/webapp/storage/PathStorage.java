@@ -4,14 +4,16 @@ import com.yarmoiseev.webapp.exception.StorageException;
 import com.yarmoiseev.webapp.model.Resume;
 import com.yarmoiseev.webapp.storage.serializestrategy.StreamSerializer;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class PathStorage extends AbstractStorage<Path> {
     private Path directory;
@@ -32,11 +34,11 @@ public class PathStorage extends AbstractStorage<Path> {
     protected void saveToStorage(Resume r, Path path) {
         try {
             Files.createFile(path);
-            streamSerializer.doWrite(r, new BufferedOutputStream(Files.newOutputStream(path)));
         } catch (IOException e) {
             throw new StorageException("Couldn't create Path" + path,
                     path.getFileName().toString(), e);
         }
+        updateInStorage(r, path);
     }
 
     @Override
@@ -79,38 +81,25 @@ public class PathStorage extends AbstractStorage<Path> {
 
     @Override
     protected List<Resume> getListFromStorage() {
-        List<Path> paths;
-        try {
-            paths = Files.list(directory).collect(Collectors.toList());
-        } catch (IOException e) {
-            throw new StorageException("Directory reading error", null);
-        }
-
-        List<Resume> resumeList = new ArrayList<>(paths.size());
-        for (Path p : paths) {
-            resumeList.add(getFromStorage(p));
-        }
-        return resumeList;
-
-
+        return getFiles().map(this::getFromStorage).collect(Collectors.toList());
     }
 
     @Override
     public void clear() {
-        try {
-            Files.list(directory).forEach(this::removeFromStorage);
-        } catch (IOException e) {
-            throw new StorageException("Path delete error", null);
-        }
+        getFiles().forEach(this::removeFromStorage);
     }
 
     @Override
     public int size() {
-        String[] list = directory.toFile().list();
-        if (list == null) {
-            throw new StorageException("Directory reading error", null);
+        return (int) getFiles().count();
+    }
+
+    private Stream<Path> getFiles() {
+        try {
+            return Files.list(directory);
+        } catch (IOException e) {
+            throw new StorageException("Directory reading error", e);
         }
-        return list.length;
     }
 
 }

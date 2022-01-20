@@ -81,7 +81,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
         try {
             paths = Files.list(directory).collect(Collectors.toList());
         } catch (IOException e) {
-            throw new StorageException("Directory reading error", null);
+            throw new StorageException("Directory reading error", (Exception) null);
         }
 
         List<Resume> resumeList = new ArrayList<>(paths.size());
@@ -98,7 +98,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
         try {
             Files.list(directory).forEach(this::removeFromStorage);
         } catch (IOException e) {
-            throw new StorageException("Path delete error", null);
+            throw new StorageException("Path delete error", (Exception) null);
         }
     }
 
@@ -106,7 +106,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
     public int size() {
         String[] list = directory.toFile().list();
         if (list == null) {
-            throw new StorageException("Directory reading error", null);
+            throw new StorageException("Directory reading error", (Exception) null);
         }
         return list.length;
     }
