@@ -1,6 +1,11 @@
 package com.yarmoiseev.webapp.model;
 
 
+import com.yarmoiseev.webapp.util.LocalDateAdapter;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
@@ -11,10 +16,13 @@ import java.util.Objects;
 import static com.yarmoiseev.webapp.util.DateUtil.NOW;
 import static com.yarmoiseev.webapp.util.DateUtil.of;
 
-
+@XmlAccessorType(XmlAccessType.FIELD)
 public class OrgItem implements Serializable {
-    private final Link name;
+    private Link name;
     private List<OrgPeriod> periodsList;
+
+    public OrgItem() {
+    }
 
     public OrgItem(Link name, List<OrgPeriod> periodsList) {
         this.name = name;
@@ -23,6 +31,14 @@ public class OrgItem implements Serializable {
 
     public OrgItem(String name, String url, OrgPeriod... orgPeriod) {
         this(new Link(name, url), Arrays.asList(orgPeriod));
+    }
+
+    public Link getName() {
+        return name;
+    }
+
+    public List<OrgPeriod> getPeriodsList() {
+        return periodsList;
     }
 
     @Override
@@ -54,11 +70,17 @@ public class OrgItem implements Serializable {
         return sb.toString();
     }
 
+    @XmlAccessorType(XmlAccessType.FIELD)
     public static class OrgPeriod implements Serializable{
-        private final LocalDate startDate;
-        private final LocalDate endDate;
-        private final String title;
-        private final String description;
+        @XmlJavaTypeAdapter(LocalDateAdapter.class)
+        private LocalDate startDate;
+        @XmlJavaTypeAdapter(LocalDateAdapter.class)
+        private LocalDate endDate;
+        private String title;
+        private String description;
+
+        public OrgPeriod() {
+        }
 
         public OrgPeriod(int startYear, Month startMonth, String title, String description) {
             this(of(startYear, startMonth), NOW, title, description);

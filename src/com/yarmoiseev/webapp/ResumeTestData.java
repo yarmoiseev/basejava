@@ -9,16 +9,16 @@ import java.util.List;
 public class ResumeTestData {
     public static void main(String[] args) {
 
-        Resume resume = createResume("uuid001", "Григорий Кислин");;
+        Resume resume = createResume("uuid001", "Григорий Кислин");
 
         System.out.println(resume.getFullName() + "\n");
 
         for (ContactType c : ContactType.values()) {
-            System.out.println(c + " : " + resume.getContacts(c) + "\n");
+            System.out.println(c + " : " + resume.getContactsAsString(c) + "\n");
         }
 
         for (SectionType s : SectionType.values()) {
-            System.out.println(s + "\n" + resume.getSections(s).toString() + "\n");
+            System.out.println(s + "\n" + resume.getSection(s).toString() + "\n");
         }
     }
 

@@ -1,5 +1,8 @@
 package com.yarmoiseev.webapp.model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.EnumMap;
 import java.util.Map;
@@ -9,17 +12,22 @@ import java.util.UUID;
 /**
  * Initial resume class
  */
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Resume implements Comparable<Resume>, Serializable {
     private static final long serialVersionUID = 1L;
 
     // Unique identifier
-    private final String uuid;
+    private String uuid;
 
-    private final String fullName;
+    private String fullName;
 
     public final Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
 
     public final Map<SectionType, AbstractSection> sections = new EnumMap<>(SectionType.class);
+
+    public Resume() {
+    }
 
     public Resume(String fullName) {
         this(UUID.randomUUID().toString(), fullName);
@@ -40,16 +48,24 @@ public class Resume implements Comparable<Resume>, Serializable {
         return fullName;
     }
 
-    public String getContacts(ContactType type) {
+    public String getContactsAsString(ContactType type) {
         return contacts.get(type);
+    }
+
+    public Map<ContactType, String> getContacts() {
+        return contacts;
     }
 
     public void addContact(ContactType t, String s) {
         contacts.put(t, s);
     }
 
-    public AbstractSection getSections(SectionType type) {
+    public AbstractSection getSection(SectionType type) {
         return sections.get(type);
+    }
+
+    public Map<SectionType, AbstractSection> getSections() {
+        return sections;
     }
 
     public void addSection(SectionType s, AbstractSection a) {
