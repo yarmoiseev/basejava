@@ -48,13 +48,11 @@ public class ResumeTestData {
         experience.add(new OrgItem("Java Online Projects", "https://javaops.ru/",
                 new OrgItem.OrgPeriod(2013, Month.DECEMBER, "Автор проекта.",
                         "Создание, организация и проведение Java онлайн проектов и стажировок.")));
-        experience.add(new OrgItem("Wrike", "https://www.wrike.com/vn/",
+        experience.add(new OrgItem("Wrike", null,
                 new OrgItem.OrgPeriod(2014, Month.DECEMBER, 2016, Month.JANUARY,
                         "Старший разработчик (backend)",
-                        "Проектирование и разработка онлайн платформы управления проектами " +
-                                "Wrike (Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, " +
-                                "Redis). Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO.")));
-        experience.add(new OrgItem("RIT Center", "",
+                        null)));
+        experience.add(new OrgItem("RIT Center", null,
                 new OrgItem.OrgPeriod(2012, Month.APRIL, 2014, Month.DECEMBER, "Java архитектор",
                         "Организация процесса разработки системы ERP для разных окружений: релизная политика, " +
                                 "версионирование, ведение CI (Jenkins), миграция базы (кастомизация Flyway), " +
@@ -70,15 +68,15 @@ public class ResumeTestData {
         education.add(new OrgItem("Coursera", "https://www.coursera.org/learn/scala-functional-programming",
                 new OrgItem.OrgPeriod(2031, Month.MARCH, 2013, Month.MAY,
                         "\"Functional Programming Principles in Scala\" by Martin Odersky",
-                        "")));
+                        null)));
         education.add(new OrgItem("Luxoft", "https://www.luxoft-training.ru",
                 new OrgItem.OrgPeriod(2011, Month.MARCH, 2011, Month.APRIL,
                         "Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.\"",
-                        "")));
+                        null)));
         education.add(new OrgItem("Siemens AG", "https://new.siemens.com/ru/ru.html",
                 new OrgItem.OrgPeriod(2005, Month.JANUARY, 2005, Month.APRIL,
                         "3 месяца обучения мобильным IN сетям (Берлин)",
-                        ""),
+                        null),
                 new OrgItem.OrgPeriod(2005, Month.MAY, 2006, Month.JANUARY,
                         "Тест дополнительного периода",
                         "Тестовый текст")));

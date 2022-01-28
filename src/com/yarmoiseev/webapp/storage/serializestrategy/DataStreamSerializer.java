@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static com.yarmoiseev.webapp.ResumeTestData.createResume;
-
 public class DataStreamSerializer implements StreamSerializer {
 
     @Override
@@ -57,16 +55,24 @@ public class DataStreamSerializer implements StreamSerializer {
                             Link name = item.getName();
                             List<OrgItem.OrgPeriod> periodsList = item.getPeriodsList();
                             dos.writeUTF(name.getName());
-                            dos.writeUTF(name.getUrl());
+                            String url = name.getUrl();
+                            if (url == null) {
+                                dos.writeUTF("");
+                            } else {
+                                dos.writeUTF(url);
+                            }
                             dos.writeInt(periodsList.size());
 
                             for (OrgItem.OrgPeriod period : periodsList) {
-                                dos.writeInt(period.getStartDate().getYear());
-                                dos.writeInt(period.getStartDate().getMonth().getValue());
-                                dos.writeInt(period.getEndDate().getYear());
-                                dos.writeInt(period.getEndDate().getMonth().getValue());
+                                writeDate(dos, period.getStartDate());
+                                writeDate(dos, period.getEndDate());
                                 dos.writeUTF(period.getTitle());
-                                dos.writeUTF(period.getDescription());
+                                String description = period.getDescription();
+                                if (description == null) {
+                                    dos.writeUTF("");
+                                } else {
+                                    dos.writeUTF(description);
+                                }
                             }
                         }
                         break;
@@ -75,6 +81,12 @@ public class DataStreamSerializer implements StreamSerializer {
             }
         }
     }
+
+    private void writeDate(DataOutputStream dos, LocalDate localDate) throws IOException {
+        dos.writeInt(localDate.getYear());
+        dos.writeInt(localDate.getMonth().getValue());
+    }
+
 
     @Override
     public Resume doRead(InputStream is) throws IOException {
@@ -111,16 +123,24 @@ public class DataStreamSerializer implements StreamSerializer {
                         int orgItemsSize = dis.readInt();
                         List<OrgItem> orgItems = new ArrayList<>(orgItemsSize);
                         for (int j = 0; j < orgItemsSize; j++) {
-                            Link name = new Link(dis.readUTF(), dis.readUTF());
+                            Link name = new Link(dis.readUTF(), dis.readUTF()); //<<null
                             int periodsListSize = dis.readInt();
                             List<OrgItem.OrgPeriod> periodsList = new ArrayList<>(periodsListSize);
                             for (int k = 0; k < periodsListSize; k++) {
                                 OrgItem.OrgPeriod orgPeriod = new OrgItem.OrgPeriod(
-                                        LocalDate.of(dis.readInt(), dis.readInt(), 1),
-                                        LocalDate.of(dis.readInt(), dis.readInt(), 1),
-                                        dis.readUTF(), dis.readUTF()
+                                        readDate(dis),
+                                        readDate(dis),
+                                        dis.readUTF(), dis.readUTF() //<<null
                                 );
+                                String description = orgPeriod.getDescription();
+                                if (description.equals("")) {
+                                    orgPeriod.setDescription(null);
+                                }
                                 periodsList.add(orgPeriod);
+                            }
+                            String url = name.getUrl();
+                            if (url.equals("")) {
+                                name.setUrl(null);
                             }
                             OrgItem orgItem = new OrgItem(name, periodsList);
                             orgItems.add(orgItem);
@@ -134,27 +154,7 @@ public class DataStreamSerializer implements StreamSerializer {
         }
     }
 
-    public static void main(String[] args) {
-        Resume resume = createResume("uuid001", "Григорий Кислин");
-        DataStreamSerializer dss = new DataStreamSerializer();
-        try {
-            OutputStream os = new BufferedOutputStream(new FileOutputStream("nom2.txt"));
-            dss.doWrite(resume, os);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-        InputStream is;
-        Resume inResume = null;
-        try {
-            is = new BufferedInputStream(new FileInputStream("nom2.txt"));
-            inResume = dss.doRead(is);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        System.out.println(inResume);
-
-
+    private LocalDate readDate(DataInputStream dis) throws IOException {
+        return LocalDate.of(dis.readInt(), dis.readInt(), 1);
     }
 }
