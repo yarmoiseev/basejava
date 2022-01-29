@@ -5,6 +5,7 @@ import com.yarmoiseev.webapp.model.*;
 import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -16,17 +17,15 @@ public class DataStreamSerializer implements StreamSerializer {
             dos.writeUTF(r.getUuid());
             dos.writeUTF(r.getFullName());
             Map<ContactType, String> contacts = r.getContacts();
-            dos.writeInt(contacts.size());
 
-            for (Map.Entry<ContactType, String> entry : contacts.entrySet()) {
+            writeCollection(contacts.entrySet(), dos, entry -> {
                 dos.writeUTF(entry.getKey().name());
                 dos.writeUTF(entry.getValue());
-            }
+            });
 
             Map<SectionType, AbstractSection> sections = r.getSections();
-            dos.writeInt(sections.size());
-            for (Map.Entry<SectionType, AbstractSection> entry : sections.entrySet()) {
 
+            writeCollection(sections.entrySet(), dos, entry -> {
                 SectionType sType = entry.getKey();
                 dos.writeUTF(sType.name());
                 switch (sType) {
@@ -40,18 +39,16 @@ public class DataStreamSerializer implements StreamSerializer {
                     case QUALIFICATIONS:
                         BulletTextSection bulletTextSection = (BulletTextSection) entry.getValue();
                         List<String> items = bulletTextSection.getItems();
-                        dos.writeInt(items.size());
-                        for (String item : items) {
-                            dos.writeUTF(item);
-                        }
+
+                        writeCollection(items, dos, dos::writeUTF);
                         break;
 
                     case EXPERIENCE:
                     case EDUCATION:
                         OrganizationListSection orgSection = (OrganizationListSection) entry.getValue();
                         List<OrgItem> orgItems = orgSection.getItems();
-                        dos.writeInt(orgItems.size());
-                        for (OrgItem item : orgItems) {
+
+                        writeCollection(orgItems, dos, item -> {
                             Link name = item.getName();
                             List<OrgItem.OrgPeriod> periodsList = item.getPeriodsList();
                             dos.writeUTF(name.getName());
@@ -61,9 +58,8 @@ public class DataStreamSerializer implements StreamSerializer {
                             } else {
                                 dos.writeUTF(url);
                             }
-                            dos.writeInt(periodsList.size());
 
-                            for (OrgItem.OrgPeriod period : periodsList) {
+                            writeCollection(periodsList, dos, period -> {
                                 writeDate(dos, period.getStartDate());
                                 writeDate(dos, period.getEndDate());
                                 dos.writeUTF(period.getTitle());
@@ -73,18 +69,30 @@ public class DataStreamSerializer implements StreamSerializer {
                                 } else {
                                     dos.writeUTF(description);
                                 }
-                            }
-                        }
+                            });
+                        });
                         break;
-
                 }
-            }
+            });
         }
     }
 
     private void writeDate(DataOutputStream dos, LocalDate localDate) throws IOException {
         dos.writeInt(localDate.getYear());
         dos.writeInt(localDate.getMonth().getValue());
+    }
+
+    private <T> void writeCollection(Collection<T> collection, DataOutputStream dos, CollectionItemWriter<T> cw)
+            throws IOException {
+        dos.writeInt(collection.size());
+        for (T t : collection) {
+            cw.write(t);
+        }
+    }
+
+    @FunctionalInterface
+    private interface CollectionItemWriter<T> {
+        void write(T t) throws IOException;
     }
 
 
@@ -123,14 +131,14 @@ public class DataStreamSerializer implements StreamSerializer {
                         int orgItemsSize = dis.readInt();
                         List<OrgItem> orgItems = new ArrayList<>(orgItemsSize);
                         for (int j = 0; j < orgItemsSize; j++) {
-                            Link name = new Link(dis.readUTF(), dis.readUTF()); //<<null
+                            Link name = new Link(dis.readUTF(), dis.readUTF());
                             int periodsListSize = dis.readInt();
                             List<OrgItem.OrgPeriod> periodsList = new ArrayList<>(periodsListSize);
                             for (int k = 0; k < periodsListSize; k++) {
                                 OrgItem.OrgPeriod orgPeriod = new OrgItem.OrgPeriod(
                                         readDate(dis),
                                         readDate(dis),
-                                        dis.readUTF(), dis.readUTF() //<<null
+                                        dis.readUTF(), dis.readUTF()
                                 );
                                 String description = orgPeriod.getDescription();
                                 if (description.equals("")) {
