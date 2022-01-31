@@ -4,10 +4,7 @@ import com.yarmoiseev.webapp.model.*;
 
 import java.io.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class DataStreamSerializer implements StreamSerializer {
 
@@ -53,22 +50,14 @@ public class DataStreamSerializer implements StreamSerializer {
                             List<OrgItem.OrgPeriod> periodsList = item.getPeriodsList();
                             dos.writeUTF(name.getName());
                             String url = name.getUrl();
-                            if (url == null) {
-                                dos.writeUTF("");
-                            } else {
-                                dos.writeUTF(url);
-                            }
+                            dos.writeUTF(url == null ? "" : url);
 
                             writeCollection(periodsList, dos, period -> {
                                 writeDate(dos, period.getStartDate());
                                 writeDate(dos, period.getEndDate());
                                 dos.writeUTF(period.getTitle());
                                 String description = period.getDescription();
-                                if (description == null) {
-                                    dos.writeUTF("");
-                                } else {
-                                    dos.writeUTF(description);
-                                }
+                                dos.writeUTF(description == null ? "" : description);
                             });
                         });
                         break;
@@ -102,13 +91,8 @@ public class DataStreamSerializer implements StreamSerializer {
             String uuid = dis.readUTF();
             String fullName = dis.readUTF();
             Resume resume = new Resume(uuid, fullName);
-            int size = dis.readInt();
-            for (int i = 0; i < size; i++) {
-                resume.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF());
-            }
-
-            int sectionsSize = dis.readInt();
-            for (int i = 0; i < sectionsSize; i++) {
+            iterateCollection(dis, () -> resume.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF()));
+            iterateCollection(dis, () -> {
                 SectionType sType = SectionType.valueOf(dis.readUTF());
                 switch (sType) {
                     case PERSONAL:
@@ -118,23 +102,18 @@ public class DataStreamSerializer implements StreamSerializer {
 
                     case ACHIEVEMENT:
                     case QUALIFICATIONS:
-                        int itemsSize = dis.readInt();
-                        List<String> items = new ArrayList<>(itemsSize);
-                        for (int j = 0; j < itemsSize; j++) {
-                            items.add(dis.readUTF());
-                        }
-                        resume.addSection(sType, new BulletTextSection(items));
+                        resume.addSection(sType, new BulletTextSection(iterateList(dis, dis::readUTF)));
                         break;
 
                     case EXPERIENCE:
                     case EDUCATION:
-                        int orgItemsSize = dis.readInt();
-                        List<OrgItem> orgItems = new ArrayList<>(orgItemsSize);
-                        for (int j = 0; j < orgItemsSize; j++) {
+                        resume.addSection(sType, new OrganizationListSection(iterateList(dis, () -> {
                             Link name = new Link(dis.readUTF(), dis.readUTF());
-                            int periodsListSize = dis.readInt();
-                            List<OrgItem.OrgPeriod> periodsList = new ArrayList<>(periodsListSize);
-                            for (int k = 0; k < periodsListSize; k++) {
+                            String url = name.getUrl();
+                            if (url.equals("")) {
+                                name.setUrl(null);
+                            }
+                            return new OrgItem(name, iterateList(dis, () -> {
                                 OrgItem.OrgPeriod orgPeriod = new OrgItem.OrgPeriod(
                                         readDate(dis),
                                         readDate(dis),
@@ -144,25 +123,46 @@ public class DataStreamSerializer implements StreamSerializer {
                                 if (description.equals("")) {
                                     orgPeriod.setDescription(null);
                                 }
-                                periodsList.add(orgPeriod);
-                            }
-                            String url = name.getUrl();
-                            if (url.equals("")) {
-                                name.setUrl(null);
-                            }
-                            OrgItem orgItem = new OrgItem(name, periodsList);
-                            orgItems.add(orgItem);
-                        }
-                        resume.addSection(sType, new OrganizationListSection(orgItems));
+                                return orgPeriod;
+                            }));
+                        })));
                         break;
-
                 }
-            }
+            });
             return resume;
         }
     }
 
     private LocalDate readDate(DataInputStream dis) throws IOException {
         return LocalDate.of(dis.readInt(), dis.readInt(), 1);
+    }
+
+    private void iterateCollection(DataInputStream dis, CollectionReader ci)
+            throws IOException {
+        int size = dis.readInt();
+        for (int i = 0; i < size; i++) {
+            ci.read();
+        }
+
+    }
+
+    @FunctionalInterface
+    private interface CollectionReader {
+        void read() throws IOException;
+    }
+
+    private <T> List<T> iterateList(DataInputStream dis, ListReader<T> lr) throws IOException {
+        int size = dis.readInt();
+        List<T> list = new ArrayList<>(size);
+        for (int i = 0; i < size; i++) {
+            list.add(lr.read());
+        }
+        return list;
+
+    }
+
+    @FunctionalInterface
+    private interface ListReader<T> {
+        T read() throws IOException;
     }
 }
