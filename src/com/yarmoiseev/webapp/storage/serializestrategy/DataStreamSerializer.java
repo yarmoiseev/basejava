@@ -50,14 +50,14 @@ public class DataStreamSerializer implements StreamSerializer {
                             List<OrgItem.OrgPeriod> periodsList = item.getPeriodsList();
                             dos.writeUTF(name.getName());
                             String url = name.getUrl();
-                            dos.writeUTF(url == null ? "" : url);
+                            writeNullSafely(dos, url);
 
                             writeCollection(periodsList, dos, period -> {
                                 writeDate(dos, period.getStartDate());
                                 writeDate(dos, period.getEndDate());
                                 dos.writeUTF(period.getTitle());
                                 String description = period.getDescription();
-                                dos.writeUTF(description == null ? "" : description);
+                                writeNullSafely(dos, description);
                             });
                         });
                         break;
@@ -69,6 +69,10 @@ public class DataStreamSerializer implements StreamSerializer {
     private void writeDate(DataOutputStream dos, LocalDate localDate) throws IOException {
         dos.writeInt(localDate.getYear());
         dos.writeInt(localDate.getMonth().getValue());
+    }
+
+    private void writeNullSafely(DataOutputStream dos, String data) throws IOException {
+        dos.writeUTF(data == null ? "" : data);
     }
 
     private <T> void writeCollection(Collection<T> collection, DataOutputStream dos, CollectionItemWriter<T> cw)
