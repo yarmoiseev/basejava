@@ -1,5 +1,6 @@
 package com.yarmoiseev.webapp.storage;
 
+import com.yarmoiseev.webapp.Config;
 import com.yarmoiseev.webapp.ResumeTestData;
 import com.yarmoiseev.webapp.exception.ExistStorageException;
 import com.yarmoiseev.webapp.exception.NotExistStorageException;
@@ -14,7 +15,7 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public abstract class AbstractStorageTest {
-    protected static final File STORAGE_DIR = new File("D:\\GIT Repository\\baseJava\\basejava\\storage");
+    protected static final File STORAGE_DIR = Config.get().getStorageDir();
 
     protected Storage storage;
 
