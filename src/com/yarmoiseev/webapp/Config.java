@@ -1,13 +1,16 @@
 package com.yarmoiseev.webapp;
 
+import com.yarmoiseev.webapp.storage.SqlStorage;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.SQLException;
 import java.util.Properties;
 
 public class Config {
-    private static final File  PROPS = new File("config/resumes.properties");
+    private static final File PROPS = new File("config/resumes.properties");
     private static final Config INSTANCE = new Config();
 
     private Properties props = new Properties();
@@ -16,10 +19,12 @@ public class Config {
     private String dbUser;
     private String dbPass;
 
-    public static Config get() { return INSTANCE; }
+    public static Config get() {
+        return INSTANCE;
+    }
 
     private Config() {
-        try (InputStream is =  new FileInputStream(PROPS)) {
+        try (InputStream is = new FileInputStream(PROPS)) {
             props.load(is);
             storageDir = new File(props.getProperty("storage.dir"));
             dbUrl = props.getProperty("db.url");
@@ -44,5 +49,9 @@ public class Config {
 
     public String getDbPass() {
         return dbPass;
+    }
+
+    public SqlStorage getSqlStorage() throws SQLException {
+        return new SqlStorage(Config.get().getDbUrl(), Config.get().getDbUser(), Config.get().getDbPass());
     }
 }

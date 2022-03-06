@@ -4,6 +4,7 @@ import com.yarmoiseev.webapp.exception.NotExistStorageException;
 import com.yarmoiseev.webapp.model.Resume;
 import com.yarmoiseev.webapp.util.SqlHelper;
 
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,98 +15,83 @@ import java.util.List;
 public class SqlStorage implements Storage {
     private SqlHelper sqlHelper;
 
-    public SqlStorage(SqlHelper sqlHelper) {
-        this.sqlHelper = sqlHelper;
+    public SqlStorage(String dbUrl, String dbUser, String dbPassword) throws SQLException {
+        this.sqlHelper = new SqlHelper(() -> DriverManager.getConnection(dbUrl, dbUser, dbPassword));
     }
 
     @Override
     public void clear() {
-        sqlHelper.connectionExecute(ps -> {
+        sqlHelper.queryExecute("DELETE FROM resume", ps -> {
             ps.execute();
             return null;
-        }, "DELETE FROM resume");
+        });
     }
 
     @Override
-    public void update(Resume r) { //TODO notExist
-        sqlHelper.connectionExecute(ps -> {
+    public void update(Resume r) {
+        sqlHelper.queryExecute("UPDATE resume SET full_name = ? WHERE uuid = ?", ps -> {
+            String uuid = r.getUuid();
             ps.setString(1, r.getFullName());
-            ps.setString(2, r.getUuid());
-            int count = ps.executeUpdate();
-            if (count == 0) {
-                throw new NotExistStorageException(r.getUuid());
+            ps.setString(2, uuid);
+            if (ps.executeUpdate() == 0) {
+                throw new NotExistStorageException(uuid);
             }
             return null;
-        }, "UPDATE resume SET full_name = ? WHERE uuid = ?");
+        });
     }
 
     @Override
     public void save(Resume r) {
-        sqlHelper.connectionExecute(ps -> {
+        sqlHelper.queryExecute("INSERT INTO resume (uuid, full_name) VALUES (?,?)", ps -> {
             ps.setString(1, r.getUuid());
             ps.setString(2, r.getFullName());
-            ps.executeUpdate();
+            ps.execute();
             return null;
-        }, "INSERT INTO resume (uuid, full_name) VALUES (?,?)");
+        });
     }
 
     @Override
     public Resume get(String uuid) {
-        return sqlHelper.connectionExecute(ps -> {
+        return (Resume) sqlHelper.queryExecute("SELECT * FROM resume r WHERE r.uuid =?", ps -> {
             ps.setString(1, uuid);
             ResultSet rs = ps.executeQuery();
             if (!rs.next()) {
                 throw new NotExistStorageException(uuid);
             }
             return new Resume(uuid, rs.getString("full_name"));
-        }, "SELECT * FROM resume r WHERE r.uuid =?");
+        });
     }
 
     @Override
     public void delete(String uuid) {
-        sqlHelper.connectionExecute(ps -> {
+        sqlHelper.queryExecute("DELETE FROM resume WHERE uuid = ?", ps -> {
             ps.setString(1, uuid);
-            int count = ps.executeUpdate();
-            if (count == 0) {
+            if (ps.executeUpdate() == 0) {
                 throw new NotExistStorageException(uuid);
             }
             return null;
-        }, "DELETE FROM resume WHERE uuid = ?");
+        });
     }
 
     @Override
     public List<Resume> getAllSorted() {
-        List<Resume> resumeList = new ArrayList<>();
-
-        sqlHelper.connectionExecute(ps -> {
+        return sqlHelper.queryExecute("SELECT * FROM resume r ORDER BY full_name, uuid", ps -> {
             ResultSet rs = ps.executeQuery();
+            List<Resume> resumeList = new ArrayList<>();
             while (rs.next()) {
                 String uuid = rs.getString("uuid").trim();
                 Resume resume = new Resume(uuid, rs.getString("full_name"));
                 resumeList.add(resume);
             }
-            return null;
-        }, "SELECT * FROM resume");
-        Collections.sort(resumeList);
-        return resumeList;
+            return resumeList;
+        });
     }
 
     @Override
     public int size() {
-        final int[] size = {0};
-        sqlHelper.connectionExecute(ps -> {
+        return sqlHelper.queryExecute("SELECT count(*) FROM resume", ps -> {
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                size[0] = rs.getInt(1);
-            }
-            return null;
-        }, "SELECT count(*) FROM resume");
-        return size[0];
+            return rs.next() ? rs.getInt(1) : 0;
+        });
     }
-
-    public interface Executor {
-        Resume runExecutor(PreparedStatement ps) throws SQLException;
-    }
-
-
 }
