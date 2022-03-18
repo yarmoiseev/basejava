@@ -92,20 +92,20 @@ public class ResumeTestData {
 
         Resume resume = new Resume(uuid, fullName);
 
-/*        resume.contacts.put(ContactType.TEL, "+7(921) 855-0482");
+       resume.contacts.put(ContactType.TEL, "+7(921) 855-0482");
         resume.contacts.put(ContactType.SKYPE, "grigory.kislin");
         resume.contacts.put(ContactType.MAIL, "gkislin@yandex.ru");
         resume.contacts.put(ContactType.LINKEDIN, "https://www.linkedin.com/in/gkislin");
         resume.contacts.put(ContactType.GITHUB, "https://github.com/gkislin");
         resume.contacts.put(ContactType.STACKOVERFLOW, "https://stackoverflow.com/users/548473/grigory-kislin");
         resume.contacts.put(ContactType.HOMEPAGE, "http://gkislin.ru/");
-
-        resume.sections.put(SectionType.OBJECTIVE, objSection);
-        resume.sections.put(SectionType.PERSONAL, persSection);
-        resume.sections.put(SectionType.ACHIEVEMENT, achieveSection);
-        resume.sections.put(SectionType.QUALIFICATIONS, qualSection);
-        resume.sections.put(SectionType.EXPERIENCE, expSection);
-        resume.sections.put(SectionType.EDUCATION, eduSection);*/
+//
+//        resume.sections.put(SectionType.OBJECTIVE, objSection);
+//        resume.sections.put(SectionType.PERSONAL, persSection);
+//        resume.sections.put(SectionType.ACHIEVEMENT, achieveSection);
+//        resume.sections.put(SectionType.QUALIFICATIONS, qualSection);
+//        resume.sections.put(SectionType.EXPERIENCE, expSection);
+//        resume.sections.put(SectionType.EDUCATION, eduSection);
 
         return resume;
     }
