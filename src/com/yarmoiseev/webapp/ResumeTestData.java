@@ -9,7 +9,7 @@ import java.util.List;
 public class ResumeTestData {
     public static void main(String[] args) {
 
-        Resume resume = createResume("uuid001", "Григорий Кислин");
+        Resume resume = createResume("uuid001", "Григорий Кислин", true);
 
         System.out.println(resume.getFullName() + "\n");
 
@@ -22,7 +22,7 @@ public class ResumeTestData {
         }
     }
 
-    public static Resume createResume(String uuid, String fullName) {
+    public static Resume createResume(String uuid, String fullName, boolean addContacts) {
         List<String> achievements = new ArrayList<>();
 
         achievements.add("С 2013 года: разработка проектов \"Разработка Web приложения\"," +
@@ -91,14 +91,17 @@ public class ResumeTestData {
         AbstractSection eduSection = new OrganizationListSection(education);
 
         Resume resume = new Resume(uuid, fullName);
+        if (addContacts) {
+            resume.contacts.put(ContactType.TEL, "+7(921) 855-0482");
+            resume.contacts.put(ContactType.SKYPE, "grigory.kislin");
+            resume.contacts.put(ContactType.MAIL, "gkislin@yandex.ru");
+            resume.contacts.put(ContactType.LINKEDIN, "https://www.linkedin.com/in/gkislin");
+            resume.contacts.put(ContactType.GITHUB, "https://github.com/gkislin");
+            resume.contacts.put(ContactType.STACKOVERFLOW, "https://stackoverflow.com/users/548473/grigory-kislin");
+            resume.contacts.put(ContactType.HOMEPAGE, "http://gkislin.ru/");
+        }
 
-       resume.contacts.put(ContactType.TEL, "+7(921) 855-0482");
-        resume.contacts.put(ContactType.SKYPE, "grigory.kislin");
-        resume.contacts.put(ContactType.MAIL, "gkislin@yandex.ru");
-        resume.contacts.put(ContactType.LINKEDIN, "https://www.linkedin.com/in/gkislin");
-        resume.contacts.put(ContactType.GITHUB, "https://github.com/gkislin");
-        resume.contacts.put(ContactType.STACKOVERFLOW, "https://stackoverflow.com/users/548473/grigory-kislin");
-        resume.contacts.put(ContactType.HOMEPAGE, "http://gkislin.ru/");
+
 //
 //        resume.sections.put(SectionType.OBJECTIVE, objSection);
 //        resume.sections.put(SectionType.PERSONAL, persSection);
