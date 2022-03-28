@@ -33,7 +33,7 @@ public class BulletTextSection extends AbstractSection {
         StringBuilder sb = new StringBuilder();
 
         for(String s : items) {
-            sb.append("*").append(s).append("\n");
+            sb.append(s).append("\n");
         }
         return sb.toString();
     }
@@ -47,6 +47,8 @@ public class BulletTextSection extends AbstractSection {
 
         return Objects.equals(items, that.items);
     }
+
+
 
     @Override
     public int hashCode() {

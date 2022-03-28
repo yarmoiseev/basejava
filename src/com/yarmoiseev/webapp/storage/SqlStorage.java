@@ -32,6 +32,8 @@ public class SqlStorage implements Storage {
             }
             deleteContacts(conn, r);
             insertContact(conn, r);
+            deleteSection(conn, r);
+            insertSection(conn, r);
             return null;
         });
 
@@ -108,6 +110,14 @@ public class SqlStorage implements Storage {
                     addContact(rs, resume);
                 }
             }
+
+            try(PreparedStatement ps = conn.prepareStatement("SELECT * FROM section")) {
+                ResultSet rs = ps.executeQuery();
+                while(rs.next()){
+                    Resume resume = resumes.get(rs.getString("resume_uuid"));
+                    addSection(rs, resume);
+                }
+            }
             return new ArrayList<>(resumes.values());
          });
     }
@@ -171,6 +181,14 @@ public class SqlStorage implements Storage {
                 r.addSection(sectionType, bulletTextSection);
             }
         }
+    }
+
+    private void deleteSection(Connection conn, Resume r) {
+        sqlHelper.queryExecute("DELETE  FROM section WHERE resume_uuid=?", ps -> {
+            ps.setString(1, r.getUuid());
+            ps.execute();
+            return null;
+        });
     }
 
 }
