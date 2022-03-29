@@ -1,42 +1,46 @@
 package com.yarmoiseev.webapp.web;
 
+import com.yarmoiseev.webapp.Config;
 import com.yarmoiseev.webapp.ResumeTestData;
 import com.yarmoiseev.webapp.model.Resume;
+import com.yarmoiseev.webapp.sql.SqlHelper;
 import com.yarmoiseev.webapp.storage.SqlStorage;
 import com.yarmoiseev.webapp.storage.Storage;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import java.io.IOException;
-import java.util.UUID;
+import java.io.PrintWriter;
+import java.sql.*;
+import java.util.*;
 
 public class ResumeServlet extends HttpServlet {
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
-        response.setHeader("Content-Type","text/html; charset=UTF-8");
-
-
-        response.getWriter().write(" <table>\n" +
-                "  <tr>\n" +
-                "    <th>UUID</th>\n" +
-                "    <th>Full name</th>\n" +
-                "  </tr>\n" +
-                "  <tr>\n" +
-                "    <td>396bf2d8-07d2-48de-8c6a-3792cfb97adf</td>\n" +
-                "    <td>full name1</td>\n" +
-                "  </tr>\n" +
-                "  <tr>\n" +
-                "    <td>d67b9ab4-d6e0-4b56-9a98-1809e1b43c19</td>\n" +
-                "    <td>full name2</td>\n" +
-                "  </tr>\n" +
-                "  <tr>\n" +
-                "    <td>4a9fe023-8f73-4623-9d28-cb5023565389</td>\n" +
-                "    <td>full name3</td>\n" +
-                "  </tr>\n" +
-                "</table> ");
-
+        response.setHeader("Content-Type", "text/html; charset=UTF-8");
+        PrintWriter out = response.getWriter();
+        out.println("<html><body>");
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            SqlStorage sqlStorage = new SqlStorage("jdbc:postgresql://localhost:5432/postgres", "postgres", "postgres");
+            List<Resume> resumeList = sqlStorage.getAllSorted();
+            out.println("<table border=1 width=50% height=50%>");
+            out.println("<tr><th>UUID</th><th>FULL NAME</th><tr>");
+            for (Resume r : resumeList) {
+                out.println("<tr><td>" + r.getUuid() + "</td><td>" + r.getFullName() + "</td></tr>");
+            }
+            out.println("</table>");
+            out.println("</html></body>");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
