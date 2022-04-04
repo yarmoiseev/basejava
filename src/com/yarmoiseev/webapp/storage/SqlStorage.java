@@ -149,12 +149,8 @@ public class SqlStorage implements Storage {
         }
     }
 
-    private void deleteContacts(Connection conn, Resume r) {
-        this.sqlHelper.queryExecute("DELETE  FROM contact WHERE resume_uuid=?", ps -> {
-            ps.setString(1, r.getUuid());
-            ps.execute();
-            return null;
-        });
+    private void deleteContacts(Connection conn, Resume r) throws SQLException {
+        deleteInDb(conn, r, "DELETE  FROM contact WHERE resume_uuid=?");
     }
 
     private void addContact(ResultSet rs, Resume r) throws SQLException {
@@ -212,12 +208,15 @@ public class SqlStorage implements Storage {
         }
     }
 
-    private void deleteSection(Connection conn, Resume r) {
-        this.sqlHelper.queryExecute("DELETE  FROM section WHERE resume_uuid=?", ps -> {
+    private void deleteSection(Connection conn, Resume r) throws SQLException {
+        deleteInDb(conn, r, "DELETE  FROM section WHERE resume_uuid=?");
+    }
+
+    private void deleteInDb(Connection conn, Resume r, String sql) throws SQLException {
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, r.getUuid());
             ps.execute();
-            return null;
-        });
+        }
     }
 
 }
