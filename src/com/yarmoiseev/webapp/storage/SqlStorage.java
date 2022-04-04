@@ -1,5 +1,7 @@
 package com.yarmoiseev.webapp.storage;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.yarmoiseev.webapp.exception.NotExistStorageException;
 import com.yarmoiseev.webapp.model.*;
 import com.yarmoiseev.webapp.sql.SqlHelper;
@@ -187,7 +189,7 @@ public class SqlStorage implements Storage {
                         ps.setString(2, "EXPERIENCE");
                         break;
                 }
-                ps.setString(3, e.getValue().toString());
+                ps.setString(3, JsonParser.write(e.getValue(), AbstractSection.class));
                 ps.addBatch();
             }
             ps.executeBatch();
@@ -201,12 +203,11 @@ public class SqlStorage implements Storage {
             switch (sectionType) {
                 case PERSONAL:
                 case OBJECTIVE:
-                    r.addSection(sectionType, new TextSection(content));
+                    r.addSection(sectionType, JsonParser.read(content, AbstractSection.class));
                     break;
                 default:
                     List<String> items = new ArrayList<>(Arrays.asList(content.split("\\n")));
-                    BulletTextSection bulletTextSection = new BulletTextSection(items);
-                    r.addSection(sectionType, bulletTextSection);
+                    r.addSection(sectionType, JsonParser.read(content, AbstractSection.class));
             }
         }
     }

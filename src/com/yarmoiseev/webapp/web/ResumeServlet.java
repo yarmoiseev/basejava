@@ -1,11 +1,8 @@
 package com.yarmoiseev.webapp.web;
 
 import com.yarmoiseev.webapp.Config;
-import com.yarmoiseev.webapp.ResumeTestData;
 import com.yarmoiseev.webapp.model.Resume;
-import com.yarmoiseev.webapp.sql.SqlHelper;
 import com.yarmoiseev.webapp.storage.SqlStorage;
-import com.yarmoiseev.webapp.storage.Storage;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -15,19 +12,20 @@ import java.sql.*;
 import java.util.*;
 
 public class ResumeServlet extends HttpServlet {
-    SqlStorage sqlStorage;
+    private static SqlStorage sqlStorage;
 
     {
         try {
-            sqlStorage = new SqlStorage("jdbc:postgresql://localhost:5432/postgres", "postgres", "postgres");
+            sqlStorage = Config.get().getSqlStorage();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void init() throws ServletException {
-        super.init();
+    public void init(ServletConfig servletConfig) throws ServletException {
+        super.init(servletConfig);
     }
 
     @Override

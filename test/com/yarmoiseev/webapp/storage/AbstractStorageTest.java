@@ -121,7 +121,8 @@ public abstract class AbstractStorageTest {
     }
 
     private void assertGet(Resume r) {
-        assertEquals(r, storage.get(r.getUuid()));
+        Resume r2 = storage.get(r.getUuid());
+        assertEquals(r, r2);
     }
 
     private void assertSize(int size) {
