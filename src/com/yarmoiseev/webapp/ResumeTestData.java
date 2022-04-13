@@ -14,7 +14,7 @@ public class ResumeTestData {
         System.out.println(resume.getFullName() + "\n");
 
         for (ContactType c : ContactType.values()) {
-            System.out.println(c + " : " + resume.getContactsAsString(c) + "\n");
+            System.out.println(c + " : " + resume.getContact(c) + "\n");
         }
 
         for (SectionType s : SectionType.values()) {
@@ -98,7 +98,7 @@ public class ResumeTestData {
             resume.contacts.put(ContactType.LINKEDIN, "https://www.linkedin.com/in/gkislin");
             resume.contacts.put(ContactType.GITHUB, "https://github.com/gkislin");
             resume.contacts.put(ContactType.STACKOVERFLOW, "https://stackoverflow.com/users/548473/grigory-kislin");
-            resume.contacts.put(ContactType.HOMEPAGE, "http://gkislin.ru/");
+            resume.contacts.put(ContactType.HOMEPAGE, "https://gkislin.ru/");
         }
 
 
