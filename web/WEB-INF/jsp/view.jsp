@@ -11,12 +11,20 @@
 <body>
 <jsp:include page="fragments/header.jsp"/>
 <section>
-    <h2>${resume.fullName}&nbsp;<a href="resume?uuid=${resume.uuid}&action=edit"><img src="${pageContext.request.contextPath}/img/pencil.png"></a></h2>
+    <h2>${resume.fullName}&nbsp;<a href="resume?uuid=${resume.uuid}&action=edit"><img
+            src="${pageContext.request.contextPath}/img/pencil.png"></a></h2>
     <p>
         <c:forEach var="contactEntry" items="${resume.contacts}">
             <jsp:useBean id="contactEntry"
                          type="java.util.Map.Entry<com.yarmoiseev.webapp.model.ContactType, java.lang.String>"/>
                 <%=contactEntry.getKey().toHtml(contactEntry.getValue())%><br/>
+        </c:forEach>
+    <p>
+    <p>
+        <c:forEach var="sectionEntry" items="${resume.sections}">
+    <jsp:useBean id="sectionEntry" type="java.util.Map.Entry<com.yarmoiseev.webapp.model.SectionType,
+    com.yarmoiseev.webapp.model.AbstractSection>"/>
+            <%=sectionEntry.getKey().toHtml(sectionEntry.getValue().toString())%><br/>
         </c:forEach>
     <p>
 </section>

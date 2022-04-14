@@ -1,6 +1,8 @@
 <%@ page import="com.yarmoiseev.webapp.model.ContactType" %>
+<%@ page import="com.yarmoiseev.webapp.model.SectionType" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -26,9 +28,12 @@
             </dl>
         </c:forEach>
         <h3>Секции:</h3>
-        <input type="text" name="section" size=30 value="1"><br/>
-        <input type="text" name="section" size=30 value="2"><br/>
-        <input type="text" name="section" size=30 value="3"><br/>
+        <c:forEach var="sectionType" items="<%=SectionType.values()%>">
+            <dl>
+                <dt>${sectionType.title}</dt>
+                <dd><input type="text" name="${sectionType.name()}" size=200 value="${fn:escapeXml(resume.getSection(sectionType))}"></dd>
+            </dl>
+        </c:forEach>
         <hr>
         <button type="submit">Сохранить</button>
         <button onclick="window.history.back()">Отменить</button>

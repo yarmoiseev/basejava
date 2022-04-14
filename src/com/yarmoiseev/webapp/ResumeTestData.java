@@ -107,8 +107,8 @@ public class ResumeTestData {
         resume.sections.put(SectionType.PERSONAL, persSection);
         resume.sections.put(SectionType.ACHIEVEMENT, achieveSection);
         resume.sections.put(SectionType.QUALIFICATIONS, qualSection);
-//        resume.sections.put(SectionType.EXPERIENCE, expSection);
-//        resume.sections.put(SectionType.EDUCATION, eduSection);
+        resume.sections.put(SectionType.EXPERIENCE, expSection);
+        resume.sections.put(SectionType.EDUCATION, eduSection);
 
         return resume;
     }
