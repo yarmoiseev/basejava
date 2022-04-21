@@ -1,6 +1,7 @@
 package com.yarmoiseev.webapp.model;
 
 
+import com.sun.org.apache.xpath.internal.operations.Or;
 import com.yarmoiseev.webapp.util.LocalDateAdapter;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -18,6 +19,9 @@ import static com.yarmoiseev.webapp.util.DateUtil.of;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class OrgItem implements Serializable {
+    private static final long serialVersionUID = 1L;
+    public static final OrgItem EMPTY = new OrgItem("", "", OrgPeriod.EMPTY);
+
     private Link name;
     private List<OrgPeriod> periodsList;
 
@@ -72,6 +76,8 @@ public class OrgItem implements Serializable {
 
     @XmlAccessorType(XmlAccessType.FIELD)
     public static class OrgPeriod implements Serializable{
+        public static final OrgPeriod EMPTY = new OrgPeriod();
+
         @XmlJavaTypeAdapter(LocalDateAdapter.class)
         private LocalDate startDate;
         @XmlJavaTypeAdapter(LocalDateAdapter.class)

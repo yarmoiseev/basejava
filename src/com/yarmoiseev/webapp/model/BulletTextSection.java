@@ -10,6 +10,8 @@ import java.util.Objects;
 public class BulletTextSection extends AbstractSection {
     private static final long serialVersionUID = 1L;
 
+    public static final BulletTextSection EMPTY = new BulletTextSection("");
+
     private List<String> items;
 
     public BulletTextSection() {
@@ -47,7 +49,6 @@ public class BulletTextSection extends AbstractSection {
 
         return Objects.equals(items, that.items);
     }
-
 
 
     @Override
