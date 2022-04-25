@@ -54,7 +54,7 @@
                                varStatus="counter">
                         <dl>
                             <dt>Название учереждения:</dt>
-                            <dd><input type="text" name='${type}' size=100 value="${orgItem.name.name}"></dd>
+                            <dd><input type="text" name='${type}' size=100 value="${fn:escapeXml(orgItem.name.name)}"></dd>
                         </dl>
                         <dl>
                             <dt>Сайт учереждения:</dt>
@@ -64,29 +64,29 @@
                         <div style="margin-left: 30px">
                             <c:forEach var="period" items="${orgItem.periodsList}">
                                 <jsp:useBean id="period" type="com.yarmoiseev.webapp.model.OrgItem.OrgPeriod"/>
-                                <dl>
-                                    <dt>Начальная дата:</dt>
-                                    <dd>
-                                        <input type="text" name="${type}${counter.index}startDate" size=10
-                                               value="<%=DateUtil.format(period.getStartDate())%>" placeholder="MM/yyyy">
-                                    </dd>
-                                </dl>
-                                <dl>
-                                    <dt>Конечная дата:</dt>
-                                    <dd>
-                                        <input type="text" name="${type}${counter.index}endDate" size=10
-                                               value="<%=DateUtil.format(period.getEndDate())%>" placeholder="MM/yyyy">
-                                </dl>
-                                <dl>
-                                    <dt>Должность:</dt>
-                                    <dd><input type="text" name='${type}${counter.index}title' size=75
-                                               value="${period.title}">
-                                </dl>
-                                <dl>
-                                    <dt>Описание:</dt>
-                                    <dd><textarea name="${type}${counter.index}description" rows=5
-                                                  cols=75>${period.description}</textarea></dd>
-                                </dl>
+                                    <dl>
+                                        <dt>Начальная дата:</dt>
+                                        <dd>
+                                            <input type="text" name="${type}${counter.index}startDate" size=10
+                                                   value="<%=DateUtil.format(period.getStartDate())%>" placeholder="MM/yyyy">
+                                        </dd>
+                                    </dl>
+                                    <dl>
+                                        <dt>Конечная дата:</dt>
+                                        <dd>
+                                            <input type="text" name="${type}${counter.index}endDate" size=10
+                                                   value="<%=DateUtil.format(period.getEndDate())%>" placeholder="MM/yyyy">
+                                    </dl>
+                                    <dl>
+                                        <dt>Должность:</dt>
+                                        <dd><input type="text" name='${type}${counter.index}title' size=75
+                                                   value="${fn:escapeXml(period.title)}">
+                                    </dl>
+                                    <dl>
+                                        <dt>Описание:</dt>
+                                        <dd><textarea name="${type}${counter.index}description" rows=5
+                                                      cols=75>${fn:escapeXml(period.description)}</textarea></dd>
+                                    </dl>
                             </c:forEach>
                         </div>
                     </c:forEach>

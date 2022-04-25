@@ -53,7 +53,9 @@ public class ResumeServlet extends HttpServlet {
         for (SectionType sectionType : SectionType.values()) {
             String value = request.getParameter(sectionType.name());
             String[] values = request.getParameterValues(sectionType.name());
-            if (value != null && value.trim().length() != 0) {
+            if (HtmlUtil.isEmpty(value) && values.length < 2) {
+                r.getSections().remove(sectionType);
+            } else {
                 switch (sectionType) {
                     case PERSONAL:
                     case OBJECTIVE:
@@ -87,8 +89,6 @@ public class ResumeServlet extends HttpServlet {
                         r.addSection(sectionType, new OrganizationListSection(orgItems));
                         break;
                 }
-            } else {
-                r.getSections().remove(sectionType);
             }
 
         }
@@ -147,10 +147,10 @@ public class ResumeServlet extends HttpServlet {
                             emptyFirstOrganizations.add(OrgItem.EMPTY);
                             if (orgSection != null) {
                                 for (OrgItem org : orgSection.getItems()) {
-                                    List<OrgItem.OrgPeriod> emptyFirstPositions = new ArrayList<>();
-                                    emptyFirstPositions.add(OrgItem.OrgPeriod.EMPTY);
-                                    emptyFirstPositions.addAll(org.getPeriodsList());
-                                    emptyFirstOrganizations.add(new OrgItem(org.getName(), emptyFirstPositions));
+                                    List<OrgItem.OrgPeriod> emptyFirstPeriod = new ArrayList<>();
+                                    emptyFirstPeriod.add(OrgItem.OrgPeriod.EMPTY);
+                                    emptyFirstPeriod.addAll(org.getPeriodsList());
+                                    emptyFirstOrganizations.add(new OrgItem(org.getName(), emptyFirstPeriod));
                                 }
                             }
                             section = new OrganizationListSection(emptyFirstOrganizations);
@@ -167,4 +167,5 @@ public class ResumeServlet extends HttpServlet {
                 ("view".equals(action) ? "/WEB-INF/jsp/view.jsp" : "/WEB-INF/jsp/edit.jsp")
         ).forward(request, response);
     }
+
 }
