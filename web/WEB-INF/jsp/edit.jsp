@@ -6,11 +6,13 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name= "viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/reset.css"/>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style.css"/>
-    <link href="https://fonts.googleapis.com/css2?family=Prosto+One&family=Russo+One&display=swap" rel="stylesheet">
     <jsp:useBean id="resume" type="com.yarmoiseev.webapp.model.Resume" scope="request"/>
     <title>Резюме ${resume.fullName}</title>
 </head>
@@ -21,7 +23,7 @@
         <input type="hidden" name="uuid" value="${resume.uuid}">
         <h1>ФИО</h1>
         <dl>
-            <input type="text" name="fullName" size=55 value="${resume.fullName}">
+            <input type="text" name="fullName" pattern="[A-Za-z][А-Яа-я]{30}" size=55 value="${resume.fullName}" required>
         </dl>
         <h2>Контакты:</h2>
         <c:forEach var="type" items="<%=ContactType.values()%>">

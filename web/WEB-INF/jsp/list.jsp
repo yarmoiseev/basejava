@@ -1,20 +1,23 @@
 <%@ page import="com.yarmoiseev.webapp.model.ContactType" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name= "viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/reset.css"/>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style.css"/>
-    <link href="https://fonts.googleapis.com/css2?family=Prosto+One&family=Russo+One&display=swap" rel="stylesheet">
     <title>Список всех резюме</title>
 </head>
 <body>
 <jsp:include page="fragments/header.jsp"/>
 <section>
-    <a href="resume?action=add"><img src="${pageContext.request.contextPath}/img/add.png">Добавить резюме</a>
+    <a class="new_resume" href="resume?action=add"><img src="${pageContext.request.contextPath}
+    /img/svg/add_user_black.svg">Добавить резюме</a>
     <br>
-    <table border="1" cellpadding="8" cellspacing="0" style="margin: auto">
+    <div class="wrapper">
+    <table class="table_square">
         <tr>
             <th>Имя</th>
             <th>Email</th>
@@ -34,6 +37,7 @@
             </tr>
         </c:forEach>
     </table>
+    </div>
 </section>
 <jsp:include page="fragments/footer.jsp"/>
 </body>

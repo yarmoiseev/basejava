@@ -1,73 +1,176 @@
-section {
-    width: 900px;
-    margin: auto;
+/* open-sans-300 - latin_cyrillic */
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 300;
+    src: local(''),
+    url('../fonts/open-sans-v28-latin_cyrillic-300.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+    url('../fonts/open-sans-v28-latin_cyrillic-300.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
 
-header {
-    font-family: 'Russo One', sans-serif;
-    background: none repeat scroll 0 0 #A6C9E2;
-    color: #2E6E9E;
+/* open-sans-regular - latin_cyrillic */
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    src: local(''),
+    url('../fonts/open-sans-v28-latin_cyrillic-regular.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+    url('../fonts/open-sans-v28-latin_cyrillic-regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+/* open-sans-600 - latin_cyrillic */
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    src: local(''),
+    url('../fonts/open-sans-v28-latin_cyrillic-600.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+    url('../fonts/open-sans-v28-latin_cyrillic-600.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+/* open-sans-500 - latin_cyrillic */
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 500;
+    src: local(''),
+    url('../fonts/open-sans-v28-latin_cyrillic-500.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+    url('../fonts/open-sans-v28-latin_cyrillic-500.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+/* open-sans-700 - latin_cyrillic */
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    src: local(''),
+    url('../fonts/open-sans-v28-latin_cyrillic-700.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+    url('../fonts/open-sans-v28-latin_cyrillic-700.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+/* open-sans-800 - latin_cyrillic */
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 800;
+    src: local(''),
+    url('../fonts/open-sans-v28-latin_cyrillic-800.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+    url('../fonts/open-sans-v28-latin_cyrillic-800.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+html{
+    box-sizing: border-box;
+}
+
+*, *::before, *::after{
+    box-sizing: inherit;
+}
+
+.wrapper{
+    max-width: 610px;
+    margin: 0 auto;
+}
+.header{
+    /* Rectangle 201 */
+
+    position: absolute;
+    width: 1200px;
+    height: 149px;
+    margin: 0 auto;
+    top: 0px;
+
+    background: #EDEFF2;
+
+}
+
+body{
+    font-family: 'Open Sans', serif;
+    font-style: normal;
+    font-size: 16px;
+    line-height: 1.2;
+    font-weight: normal;
+    color: #4A586E;
+}
+
+.header_back_arrow{
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    left: 295px;
+    top: 60px;
+}
+
+.header_link{
+    /* Управление резюме */
+
+    position: absolute;
+    width: 208px;
+    height: 27px;
+    left: 341px;
+    top: 61px;
+
+    font-family: 'Open Sans', serif;
+    font-style: normal;
+    font-weight: 600;
     font-size: 20px;
-    padding: 5px 20px;
+    line-height: 27px;
+    display: flex;
+    align-items: center;
+    text-decoration-line: underline;
+
+    color: #4A586E;
+}
+.new_resume{
+    position: absolute;
+    width: 35px;
+    height: 35px;
+    left: 786px;
+    top: 193px;
+}
+
+.table_square {
+    /* Rectangle 122 */
+
+    position: absolute;
+    width: 610px;
+    height: 312px;
+    top: 261px;
+
+    background: #F8F9FA;
+    border-radius: 10px;
+
+}
+
+.footer{
+    position: absolute;
+    width: 1200px;
+    height: 108px;
+    left: 0px;
+    top: 673px;
+
+    background: #EDEFF2;
+}
+
+.footer_text{
+    /* Проект: разработка web-приложения «База данных резюме» */
+
+    position: absolute;
+    width: 517px;
+    height: 19px;
+    left: 342px;
+    top: 43px;
+
+    font-family: 'Open Sans', serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 19px;
+    /* identical to box height */
+    display: flex;
+    align-items: center;
     text-align: center;
-}
 
-footer {
-    font-family: 'Russo One', sans-serif;
-    background: none repeat scroll 0 0 #A6C9E2;
-    color: #2E6E9E;
-    font-size: 20px;
-    padding: 5px 20px;
-    margin: 20px 0;
-    text-align: center;
-}
+    color: #4A586E;
 
-dl {
-    background: none repeat scroll 0 0 #FAFAFA;
-    margin: 8px 0;
-    padding: 0;
-}
 
-dt {
-    display: inline-block;
-    width: 170px;
-}
-
-dd {
-    display: inline-block;
-    margin-left: 8px;
-    vertical-align: top;
-}
-
-h2, h3 {
-    margin: 15px 0 5px;
-}
-
-li {
-    margin: 15px 0;
-}
-
-a[href^="skype:"] {
-    padding-left: 20px !important;
-    background: url(../img/skype.png) no-repeat center left;
-}
-
-a[href^="mailto:"] {
-    padding-left: 20px !important;
-    background: url(../img/email.png) no-repeat center left;
-}
-
-a[href^="https://stackoverflow.com"] {
-    padding-left: 20px !important;
-    background: url(../img/so.png) no-repeat center left;
-}
-
-a[href^="https://www.linkedin.com"] {
-    padding-left: 20px !important;
-    background: url(../img/lin.png) no-repeat center left;
-}
-
-a[href*="github."] {
-    padding-left: 20px !important;
-    background: url(../img/gh.png) no-repeat center left;
 }

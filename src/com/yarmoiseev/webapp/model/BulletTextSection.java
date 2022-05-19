@@ -18,7 +18,7 @@ public class BulletTextSection extends AbstractSection {
     }
 
     public BulletTextSection(String... items) {
-        this(Arrays.asList(items));
+        this(Arrays.asList(removeEmpty(items)));
     }
 
     public BulletTextSection(List<String> items) {
@@ -50,9 +50,16 @@ public class BulletTextSection extends AbstractSection {
         return Objects.equals(items, that.items);
     }
 
-
     @Override
     public int hashCode() {
         return items != null ? items.hashCode() : 0;
+    }
+
+    public static String[] removeEmpty(String[] stringArray) {
+        return Arrays.stream(stringArray)
+                .filter(value ->
+                        value != null && value.length() > 0 && !value.equals("\r")
+                )
+                .toArray(String[]::new);
     }
 }
